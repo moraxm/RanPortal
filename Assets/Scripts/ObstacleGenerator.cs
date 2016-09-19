@@ -7,6 +7,8 @@ public class ObstacleGenerator : MonoBehaviour
 
     public float speed = 10;
     public float timeStep = 1;
+    [Range(0,100)]
+    public int portalProbability;
 
     // Base objects for obstacles and portals
     public Portal portal;
@@ -29,6 +31,7 @@ public class ObstacleGenerator : MonoBehaviour
     public int m_maxPortalCount;
 
     float m_acumTime = 0;
+   
 
     // Use this for initialization
     void Start()
@@ -73,8 +76,41 @@ public class ObstacleGenerator : MonoBehaviour
         {
             m_acumTime -= timeStep;
             int lane = Random.Range(0, 3);
-            Obstacle obs = GetObstacle(lane);
+            int obstacleOrPortal = Random.Range(0, 100);
+            Obstacle obs;
+            if (obstacleOrPortal < portalProbability)
+                obs = GetPortal(lane);
+            else
+                obs = GetObstacle(lane);
             obs.speed = speed;
+        }
+    }
+
+    private Obstacle GetPortal(int lane)
+    {
+        Obstacle toReturn = m_portalPool.Pop();
+        SetObstaclePosition(toReturn, lane);
+        return toReturn;
+    }
+
+    private void SetObstaclePosition(Obstacle obstace, int lane)
+    {
+        switch (lane)
+        {
+            case 0:
+                obstace.transform.position = spawmPositionLeft.position;
+                obstace.transform.SetParent(spawmPositionLeft);
+                break;
+            case 1:
+                obstace.transform.position = spawmPositionCenter.position;
+                obstace.transform.SetParent(spawmPositionCenter);
+                break;
+            case 2:
+                obstace.transform.position = spawmPositionRight.position;
+                obstace.transform.SetParent(spawmPositionRight);
+                break;
+            default:
+                break;
         }
     }
 
@@ -97,23 +133,7 @@ public class ObstacleGenerator : MonoBehaviour
         // TODO si el pool no tiene obstáculos y devuelve null
 
         // position
-        switch (lane)
-        {
-            case 0:
-                toReturn.transform.position = spawmPositionLeft.position;
-                toReturn.transform.SetParent(spawmPositionLeft);
-                break;
-            case 1:
-                toReturn.transform.position = spawmPositionCenter.position;
-                toReturn.transform.SetParent(spawmPositionCenter);
-                break;
-            case 2:
-                toReturn.transform.position = spawmPositionRight.position;
-                toReturn.transform.SetParent(spawmPositionRight);
-                break;
-            default:
-                break;
-        }
+        SetObstaclePosition(toReturn, lane);
 
         return toReturn;
     }

@@ -1,8 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.Events;
 
-public class Obstacle : MonoBehaviour {
-
+public class Obstacle : MonoBehaviour 
+{
+    public UnityEvent onCollisionPlayer;
     public float speed
     {
         set;
@@ -17,4 +19,11 @@ public class Obstacle : MonoBehaviour {
 	void Update () {
         transform.position += Vector3.down * speed * Time.deltaTime;
 	}
+
+    public void OnCollisionEnter2D(Collision2D collision)
+    {
+
+    }
+
+    
 }
