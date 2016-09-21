@@ -4,15 +4,17 @@ using System.Collections.Generic;
 
 public class ObstacleGenerator : MonoBehaviour
 {
-
     public float speed = 10;
     public float timeStep = 1;
     [Range(0,100)]
     public int portalProbability;
+    [Range(0,100)]
+    public int changePortalProbability;
 
     // Base objects for obstacles and portals
     public Portal portal;
     public Obstacle[] obstacles;
+    public Portal m_randomPortal;
 
     // Spawn positions. Lanes
     public Transform spawmPositionLeft;
@@ -31,6 +33,7 @@ public class ObstacleGenerator : MonoBehaviour
     public int m_maxPortalCount;
 
     float m_acumTime = 0;
+    
    
 
     // Use this for initialization
@@ -70,7 +73,6 @@ public class ObstacleGenerator : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log(m_acumTime);
         m_acumTime += Time.deltaTime;
         if (m_acumTime > timeStep)
         {
@@ -79,10 +81,30 @@ public class ObstacleGenerator : MonoBehaviour
             int obstacleOrPortal = Random.Range(0, 100);
             Obstacle obs;
             if (obstacleOrPortal < portalProbability)
+            {
                 obs = GetPortal(lane);
+                m_randomPortal = ChangeRandomPortal(obs as Portal);
+            }
             else
+            {
                 obs = GetObstacle(lane);
+            }
             obs.speed = speed;
+        }
+    }
+
+    private Portal ChangeRandomPortal(Portal portalToChange)
+    {
+        if (m_randomPortal == null) return portalToChange;
+
+        int changePortal = Random.Range(0, 100);
+        if (changePortal < changePortalProbability)
+        {
+            return portalToChange;
+        }
+        else
+        {
+            return m_randomPortal;
         }
     }
 
@@ -164,4 +186,8 @@ public class ObstacleGenerator : MonoBehaviour
 
     }
 
+    internal Portal GetRandomPortal(Portal activePortal)
+    {
+        return m_randomPortal;
+    }
 }

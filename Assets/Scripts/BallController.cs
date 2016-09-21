@@ -3,20 +3,22 @@ using System.Collections;
 
 public class BallController : MonoBehaviour {
 
-    public float moveDistance;
-
-    enum LanePosition
+    LaneObject m_laneObject;
+    public LaneObject laneObject
     {
-        LEFT,
-        CENTER,
-        RIGHT,
+        get { return m_laneObject; }
     }
-    LanePosition m_lanePosition;
+    SpriteRenderer m_spriteRenderer;
+    public SpriteRenderer spriteRenderer
+    {
+        get { return m_spriteRenderer; }
+    }
 
 	// Use this for initialization
 	void Start () 
     {
-        m_lanePosition = LanePosition.CENTER;
+        m_laneObject = GetComponent<LaneObject>();
+        m_spriteRenderer = GetComponent<SpriteRenderer>();
 	}
 	
 	// Update is called once per frame
@@ -27,40 +29,43 @@ public class BallController : MonoBehaviour {
 
     public void moveLeft()
     {
-        Vector3 newPos = transform.position;
-        switch (m_lanePosition)
+        Debug.Log("MoveLeft");
+        switch (m_laneObject.lane)
         {
-            case LanePosition.CENTER:
-                newPos.x -= moveDistance;
-                m_lanePosition = LanePosition.LEFT;
+            case LaneObject.LanePosition.CENTER:
+                m_laneObject.lane = LaneObject.LanePosition.LEFT;
                 break;
-            case LanePosition.RIGHT:
-                newPos.x -= moveDistance;
-                m_lanePosition = LanePosition.CENTER;
+            case LaneObject.LanePosition.RIGHT:
+                m_laneObject.lane = LaneObject.LanePosition.CENTER;
                 break;
             default:
                 break;
         }
-        transform.position = newPos;
     }
 
     public void moveRight()
     {
-        Vector3 newPos = transform.position;
-        switch (m_lanePosition)
+        switch (m_laneObject.lane)
         {
-            case LanePosition.CENTER:
-                newPos.x += moveDistance;
-                m_lanePosition = LanePosition.RIGHT;
+            case LaneObject.LanePosition.CENTER:
+                m_laneObject.lane = LaneObject.LanePosition.RIGHT;
                 break;
-            case LanePosition.LEFT:
-                newPos.x += moveDistance;
-                m_lanePosition = LanePosition.CENTER;
+            case LaneObject.LanePosition.LEFT:
+                m_laneObject.lane = LaneObject.LanePosition.CENTER;
                 break;
             default:
                 break;
         }
-        transform.position = newPos;
     }
 
+
+    internal void Hide()
+    {
+        m_spriteRenderer.enabled = false;
+    }
+
+    internal void Show()
+    {
+        m_spriteRenderer.enabled = true;
+    }
 }

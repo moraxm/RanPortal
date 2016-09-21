@@ -4,7 +4,6 @@ using UnityEngine.Events;
 
 public class Obstacle : MonoBehaviour 
 {
-    public UnityEvent onCollisionPlayer;
     public float speed
     {
         set;
@@ -20,10 +19,17 @@ public class Obstacle : MonoBehaviour
         transform.position += Vector3.down * speed * Time.deltaTime;
 	}
 
-    public void OnCollisionEnter2D(Collision2D collision)
+    public void OnTriggerEnter2D(Collider2D collision)
     {
-
+        if (collision.tag == "Ball")
+        {
+            OnPlayerEnter(collision);
+        }
     }
 
-    
+    protected virtual void OnPlayerEnter(Collider2D collision)
+    {
+        GameManager.instance.GameOver();
+    }
+
 }
