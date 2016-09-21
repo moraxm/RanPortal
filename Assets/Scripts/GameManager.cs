@@ -3,8 +3,13 @@ using System.Collections;
 
 public class GameManager : MonoBehaviour
 {
+    [Header("Menus")]
+    public GameObject m_gameOverMenu;
+    public GameObject m_menuMenu;
+    [Header("Controllers")]
     public ObstacleGenerator m_obstacleGenerator;
     public BallController m_player;
+    [Header("Speeds")]
     public float teletransportingSpeed = 40;
     public float normalSpeed = 10;
     static GameManager m_instance;
@@ -89,7 +94,6 @@ public class GameManager : MonoBehaviour
 
     private void UpdateGameOver()
     {
-        throw new System.NotImplementedException();
     }
 
     private void UpdateTeletransporting()
@@ -107,11 +111,7 @@ public class GameManager : MonoBehaviour
             {
                 // Transition to Playing
                 m_player.laneObject.lane = m_otherPortal.GetComponent<LaneObject>().lane;
-                m_obstacleGenerator.speed = normalSpeed;
-                m_player.Show();
-                state = GameState.PLAYING;
-                m_otherPortal = null;
-                m_activePortal = null;
+                TransitionToPlaying();
             }
         }
     }
@@ -127,6 +127,10 @@ public class GameManager : MonoBehaviour
 
     internal void GameOver()
     {
+        state = GameState.GAME_OVER;
+        m_obstacleGenerator.speed = 0;
+        m_obstacleGenerator.Restart();
+        m_gameOverMenu.SetActive(true);
     }
 
     internal void PlayerInPortal(Portal portal)
@@ -135,6 +139,25 @@ public class GameManager : MonoBehaviour
         m_obstacleGenerator.speed = teletransportingSpeed;
         m_activePortal = portal;
         m_player.Hide();
+    }
+
+    private void TransitionToPlaying()
+    {
+        m_obstacleGenerator.speed = normalSpeed;
+        m_player.Show();
+        state = GameState.PLAYING;
+        m_otherPortal = null;
+        m_activePortal = null;
+    }
+
+    public void Retry()
+    {
+        if (state == GameState.GAME_OVER)
+        {
+            m_gameOverMenu.SetActive(false);
+            m_player.laneObject.lane = LaneObject.LanePosition.CENTER;
+            TransitionToPlaying();
+        }
     }
 
     public Portal m_otherPortal { get; set; }

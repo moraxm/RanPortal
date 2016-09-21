@@ -5,7 +5,7 @@ using System.Collections.Generic;
 public class ObstacleGenerator : MonoBehaviour
 {
     public float speed = 10;
-    public float timeStep = 1;
+    public float waveSpace = 3;
     [Range(0,100)]
     public int portalProbability;
     [Range(0,100)]
@@ -14,7 +14,7 @@ public class ObstacleGenerator : MonoBehaviour
     // Base objects for obstacles and portals
     public Portal portal;
     public Obstacle[] obstacles;
-    public Portal m_randomPortal;
+    Portal m_randomPortal;
 
     // Spawn positions. Lanes
     public Transform spawmPositionLeft;
@@ -32,7 +32,7 @@ public class ObstacleGenerator : MonoBehaviour
     Stack<Portal> m_portalPool;
     public int m_maxPortalCount;
 
-    float m_acumTime = 0;
+    float m_acumSpace = 0;
     
    
 
@@ -73,10 +73,10 @@ public class ObstacleGenerator : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        m_acumTime += Time.deltaTime;
-        if (m_acumTime > timeStep)
+        m_acumSpace += Time.deltaTime * speed;
+        if (m_acumSpace > waveSpace)
         {
-            m_acumTime -= timeStep;
+            m_acumSpace -= waveSpace;
             int lane = Random.Range(0, 3);
             int obstacleOrPortal = Random.Range(0, 100);
             Obstacle obs;
@@ -89,7 +89,7 @@ public class ObstacleGenerator : MonoBehaviour
             {
                 obs = GetObstacle(lane);
             }
-            obs.speed = speed;
+            obs.obstacleGenerator = this;
         }
     }
 
@@ -166,7 +166,15 @@ public class ObstacleGenerator : MonoBehaviour
         Obstacle obstacle = collision.GetComponent<Obstacle>();
         if (obstacle != null)
         {
-            obstacle.speed = 0;
+            ReUseObstacle(obstacle);
+        }
+    }
+
+    private void ReUseObstacle(Obstacle obstacle)
+    {
+        if (obstacle != null)
+        {
+            obstacle.obstacleGenerator = null;
             if (obstacle is Portal)
             {
 
@@ -180,14 +188,31 @@ public class ObstacleGenerator : MonoBehaviour
                 obstacle.transform.SetParent(m_objectPoolGO);
                 obstacle.transform.localPosition = Vector3.zero;
             }
-            
-            
         }
-
     }
 
     internal Portal GetRandomPortal(Portal activePortal)
     {
         return m_randomPortal;
+    }
+
+    public void Restart()
+    {
+        Obstacle[] obstacles = spawmPositionLeft.GetComponentsInChildren<Obstacle>();
+        foreach (Obstacle o in obstacles)
+        {
+            ReUseObstacle(o);
+        }
+        obstacles = spawmPositionRight.GetComponentsInChildren<Obstacle>();
+        foreach (Obstacle o in obstacles)
+        {
+            ReUseObstacle(o);
+        }
+
+        obstacles = spawmPositionCenter.GetComponentsInChildren<Obstacle>();
+        foreach (Obstacle o in obstacles)
+        {
+            ReUseObstacle(o);
+        }
     }
 }

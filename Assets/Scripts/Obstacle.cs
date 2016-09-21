@@ -4,7 +4,7 @@ using UnityEngine.Events;
 
 public class Obstacle : MonoBehaviour 
 {
-    public float speed
+    public ObstacleGenerator obstacleGenerator
     {
         set;
         get;
@@ -16,7 +16,8 @@ public class Obstacle : MonoBehaviour
 	
 	// Update is called once per frame
 	void Update () {
-        transform.position += Vector3.down * speed * Time.deltaTime;
+        if (obstacleGenerator)
+            transform.position += Vector3.down * obstacleGenerator.speed * Time.deltaTime;
 	}
 
     public void OnTriggerEnter2D(Collider2D collision)
