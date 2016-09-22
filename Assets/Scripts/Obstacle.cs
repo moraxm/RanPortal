@@ -9,9 +9,17 @@ public class Obstacle : MonoBehaviour
         set;
         get;
     }
-	// Use this for initialization
-	void Start () {
 
+    LaneObject m_laneObject;
+    public LaneObject laneObject
+    {
+        get { return m_laneObject; }
+    }
+
+	// Use this for initialization
+	void Start () 
+    {
+        m_laneObject = GetComponent<LaneObject>();
 	}
 	
 	// Update is called once per frame

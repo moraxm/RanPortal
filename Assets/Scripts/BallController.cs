@@ -3,6 +3,7 @@ using System.Collections;
 
 public class BallController : MonoBehaviour {
 
+    public float invulnerableTime = 0.5f;
     LaneObject m_laneObject;
     public LaneObject laneObject
     {
@@ -13,12 +14,39 @@ public class BallController : MonoBehaviour {
     {
         get { return m_spriteRenderer; }
     }
+    Collider2D m_collider;
+    public Collider2D collider2D
+    {
+        get { return m_collider; }
+    }
+
+    public bool hide
+    {
+        get { return m_spriteRenderer.enabled; }
+        set 
+        { 
+            m_spriteRenderer.enabled = !value;
+            if (value)
+                m_collider.enabled = false;
+            else
+                StartCoroutine(EnabledTimed(m_collider, true, invulnerableTime));
+        }
+    }
+
+    // Move blocked ?
+    public bool blocked
+    {
+        set;
+        get;
+    }
 
 	// Use this for initialization
 	void Start () 
     {
         m_laneObject = GetComponent<LaneObject>();
         m_spriteRenderer = GetComponent<SpriteRenderer>();
+        m_collider = GetComponent<Collider2D>();
+        blocked = false;
 	}
 	
 	// Update is called once per frame
@@ -29,7 +57,7 @@ public class BallController : MonoBehaviour {
 
     public void moveLeft()
     {
-        Debug.Log("MoveLeft");
+        if (blocked) return;
         switch (m_laneObject.lane)
         {
             case LaneObject.LanePosition.CENTER:
@@ -45,6 +73,7 @@ public class BallController : MonoBehaviour {
 
     public void moveRight()
     {
+        if (blocked) return;
         switch (m_laneObject.lane)
         {
             case LaneObject.LanePosition.CENTER:
@@ -58,14 +87,9 @@ public class BallController : MonoBehaviour {
         }
     }
 
-
-    internal void Hide()
+    IEnumerator EnabledTimed(Behaviour obj, bool enable, float time)
     {
-        m_spriteRenderer.enabled = false;
-    }
-
-    internal void Show()
-    {
-        m_spriteRenderer.enabled = true;
+        yield return new WaitForSeconds(time);
+        obj.enabled = enable;
     }
 }

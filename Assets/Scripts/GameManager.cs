@@ -104,6 +104,8 @@ public class GameManager : MonoBehaviour
             m_otherPortal = m_obstacleGenerator.GetRandomPortal(m_activePortal);
             if (m_otherPortal.transform.position.y < m_player.transform.position.y)
                 m_otherPortal = null;
+            else
+                m_otherPortal.gameObject.layer = LayerMask.NameToLayer("IgnorePlayer");
         }
         else
         {
@@ -138,13 +140,15 @@ public class GameManager : MonoBehaviour
         state = GameState.TELETRANSPORTING;
         m_obstacleGenerator.speed = teletransportingSpeed;
         m_activePortal = portal;
-        m_player.Hide();
+        m_player.blocked = true;
+        m_player.hide = true;
     }
 
     private void TransitionToPlaying()
     {
         m_obstacleGenerator.speed = normalSpeed;
-        m_player.Show();
+        m_player.blocked = false;
+        m_player.hide = false;
         state = GameState.PLAYING;
         m_otherPortal = null;
         m_activePortal = null;

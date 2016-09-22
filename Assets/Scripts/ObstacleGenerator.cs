@@ -121,14 +121,17 @@ public class ObstacleGenerator : MonoBehaviour
         {
             case 0:
                 obstace.transform.position = spawmPositionLeft.position;
+                obstace.laneObject.lane = LaneObject.LanePosition.LEFT;
                 obstace.transform.SetParent(spawmPositionLeft);
                 break;
             case 1:
                 obstace.transform.position = spawmPositionCenter.position;
+                obstace.laneObject.lane = LaneObject.LanePosition.CENTER;
                 obstace.transform.SetParent(spawmPositionCenter);
                 break;
             case 2:
                 obstace.transform.position = spawmPositionRight.position;
+                obstace.laneObject.lane = LaneObject.LanePosition.RIGHT;
                 obstace.transform.SetParent(spawmPositionRight);
                 break;
             default:
@@ -175,6 +178,7 @@ public class ObstacleGenerator : MonoBehaviour
         if (obstacle != null)
         {
             obstacle.obstacleGenerator = null;
+            obstacle.gameObject.layer = LayerMask.NameToLayer("Default");
             if (obstacle is Portal)
             {
 
