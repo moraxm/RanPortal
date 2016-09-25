@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public class ObstacleGenerator : MonoBehaviour
 {
-    public float speed = 10;
+    public ISpeedSource speedSource;
     public float waveSpace = 3;
     [Range(0,100)]
     public int portalProbability;
@@ -73,7 +73,7 @@ public class ObstacleGenerator : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        m_acumSpace += Time.deltaTime * speed;
+        m_acumSpace += Time.deltaTime * speedSource.speed;
         if (m_acumSpace > waveSpace)
         {
             m_acumSpace -= waveSpace;
@@ -89,7 +89,7 @@ public class ObstacleGenerator : MonoBehaviour
             {
                 obs = GetObstacle(lane);
             }
-            obs.obstacleGenerator = this;
+            obs.speedSource = GameManager.instance;
         }
     }
 
@@ -177,7 +177,7 @@ public class ObstacleGenerator : MonoBehaviour
     {
         if (obstacle != null)
         {
-            obstacle.obstacleGenerator = null;
+            obstacle.speedSource = null;
             obstacle.gameObject.layer = LayerMask.NameToLayer("Default");
             if (obstacle is Portal)
             {

@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class GameManager : MonoBehaviour
+public class GameManager : MonoBehaviour, ISpeedSource
 {
     [Header("Menus")]
     public GameObject m_gameOverMenu;
@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour
     [Header("Speeds")]
     public float teletransportingSpeed = 40;
     public float normalSpeed = 10;
+    private float m_currentSpeed = 0;
     static GameManager m_instance;
     public static GameManager instance
     {
@@ -67,7 +68,8 @@ public class GameManager : MonoBehaviour
         if (!m_obstacleGenerator)
             Debug.LogError("No obstacle generator found!");
 
-        m_obstacleGenerator.speed = normalSpeed;
+        m_obstacleGenerator.speedSource = this;
+        m_currentSpeed = normalSpeed;
     }
 
     // Update is called once per frame
@@ -130,7 +132,7 @@ public class GameManager : MonoBehaviour
     internal void GameOver()
     {
         state = GameState.GAME_OVER;
-        m_obstacleGenerator.speed = 0;
+        m_currentSpeed = 0;
         m_obstacleGenerator.Restart();
         m_gameOverMenu.SetActive(true);
     }
@@ -138,7 +140,7 @@ public class GameManager : MonoBehaviour
     internal void PlayerInPortal(Portal portal)
     {
         state = GameState.TELETRANSPORTING;
-        m_obstacleGenerator.speed = teletransportingSpeed;
+        m_currentSpeed = teletransportingSpeed;
         m_activePortal = portal;
         m_player.blocked = true;
         m_player.hide = true;
@@ -146,7 +148,7 @@ public class GameManager : MonoBehaviour
 
     private void TransitionToPlaying()
     {
-        m_obstacleGenerator.speed = normalSpeed;
+        m_currentSpeed = normalSpeed;
         m_player.blocked = false;
         m_player.hide = false;
         state = GameState.PLAYING;
@@ -165,4 +167,12 @@ public class GameManager : MonoBehaviour
     }
 
     public Portal m_otherPortal { get; set; }
+
+    public float speed
+    {
+        get
+        {
+            return m_currentSpeed;
+        }
+    }
 }

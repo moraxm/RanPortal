@@ -2,13 +2,8 @@
 using System.Collections;
 using UnityEngine.Events;
 
-public class Obstacle : MonoBehaviour 
+public class Obstacle : AutomoveObject 
 {
-    public ObstacleGenerator obstacleGenerator
-    {
-        set;
-        get;
-    }
 
     LaneObject m_laneObject;
     public LaneObject laneObject
@@ -21,12 +16,6 @@ public class Obstacle : MonoBehaviour
     {
         m_laneObject = GetComponent<LaneObject>();
 	}
-	
-	// Update is called once per frame
-	void Update () {
-        if (obstacleGenerator)
-            transform.position += Vector3.down * obstacleGenerator.speed * Time.deltaTime;
-	}
 
     public void OnTriggerEnter2D(Collider2D collision)
     {
@@ -34,6 +23,19 @@ public class Obstacle : MonoBehaviour
         {
             OnPlayerEnter(collision);
         }
+    }
+
+    public void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.tag == "Ball")
+        {
+            OnPlayerExit(collision);
+        }
+    }
+
+    protected virtual void OnPlayerExit(Collider2D collision)
+    {
+        
     }
 
     protected virtual void OnPlayerEnter(Collider2D collision)
