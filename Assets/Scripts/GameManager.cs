@@ -12,7 +12,18 @@ public class GameManager : MonoBehaviour, ISpeedSource
     [Header("Speeds")]
     public float teletransportingSpeed = 40;
     public float normalSpeed = 10;
+    // Values per game
     private float m_currentSpeed = 0;
+    private float m_points;
+    public int points
+    {
+        get
+        {
+            return (int) m_points;
+        }
+    }
+    
+
     static GameManager m_instance;
     public static GameManager instance
     {
@@ -75,6 +86,7 @@ public class GameManager : MonoBehaviour, ISpeedSource
     // Update is called once per frame
     void Update()
     {
+        UpdatePoints();
         switch (state)
         {
             case GameState.MENU:
@@ -92,6 +104,11 @@ public class GameManager : MonoBehaviour, ISpeedSource
             default:
                 break;
         }
+    }
+
+    private void UpdatePoints()
+    {
+        m_points += m_currentSpeed * Time.deltaTime;
     }
 
     private void UpdateGameOver()
@@ -156,6 +173,11 @@ public class GameManager : MonoBehaviour, ISpeedSource
         m_activePortal = null;
     }
 
+    private void ResetPoints()
+    {
+        m_points = 0;
+    }
+
     public void Retry()
     {
         if (state == GameState.GAME_OVER)
@@ -163,6 +185,7 @@ public class GameManager : MonoBehaviour, ISpeedSource
             m_gameOverMenu.SetActive(false);
             m_player.laneObject.lane = LaneObject.LanePosition.CENTER;
             TransitionToPlaying();
+            ResetPoints();
         }
     }
 
