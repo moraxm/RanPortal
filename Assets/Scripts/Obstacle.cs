@@ -21,14 +21,11 @@ public class Obstacle : AutomoveObject
     {
         if (collision.tag == "Ball")
         {
-            Vector3 dir = collision.transform.position - transform.position;
             BallController bc = collision.GetComponent<BallController>();
-            Debug.Log(dir);
-            OnPlayerEnterFront(collision);
-            //if (dir.normalized == Vector3.down)
-            //    OnPlayerEnterFront(collision);
-            //else
-            //    OnPlayerEnterLateral(collision);
+            if (bc.moving)
+                OnPlayerEnterLateral(collision);
+            else
+                OnPlayerEnterFront(collision);
         }
     }
 
@@ -36,13 +33,11 @@ public class Obstacle : AutomoveObject
     {
         if (collision.tag == "Ball")
         {
-            Vector3 dir = collision.transform.position - transform.position;
-            Debug.Log(dir);
-            OnPlayerExitFront(collision);
-            //if (dir.normalized == Vector3.down)
-            //    OnPlayerExitFront(collision);
-            //else
-            //    OnPlayerExitLateral(collision);
+            BallController bc = collision.GetComponent<BallController>();
+            if (bc.moving)
+                OnPlayerExitLateral(collision);
+            else
+                OnPlayerExitFront(collision);
         }
     }
 
@@ -63,7 +58,7 @@ public class Obstacle : AutomoveObject
 
     protected virtual void OnPlayerEnterLateral(Collider2D collision)
     {
-        OnPlayerEnterFront(collision);
+        GameManager.instance.GameOver();
     }
 
 }

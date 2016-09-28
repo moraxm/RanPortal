@@ -40,6 +40,14 @@ public class BallController : MonoBehaviour {
         get;
     }
 
+    // Last frame moving?
+    public bool moving
+    {
+        set;
+        get;
+    }
+    private int m_movingFlagFrames;
+
 	// Use this for initialization
 	void Start () 
     {
@@ -47,13 +55,25 @@ public class BallController : MonoBehaviour {
         m_spriteRenderer = GetComponent<SpriteRenderer>();
         m_collider = GetComponent<Collider2D>();
         blocked = false;
+        m_movingFlagFrames = 0;
 	}
 	
 	// Update is called once per frame
 	void Update () 
     {
-	
+        CheckMoving();
 	}
+
+    private void CheckMoving()
+    {
+        if (moving)
+            ++m_movingFlagFrames;
+        if (m_movingFlagFrames > 1)
+        {
+            moving = false;
+            m_movingFlagFrames = 0;
+        }
+    }
 
     public void moveLeft()
     {
@@ -62,9 +82,11 @@ public class BallController : MonoBehaviour {
         {
             case LaneObject.LanePosition.CENTER:
                 m_laneObject.lane = LaneObject.LanePosition.LEFT;
+                moving = true;
                 break;
             case LaneObject.LanePosition.RIGHT:
                 m_laneObject.lane = LaneObject.LanePosition.CENTER;
+                moving = true;
                 break;
             default:
                 break;
@@ -78,9 +100,11 @@ public class BallController : MonoBehaviour {
         {
             case LaneObject.LanePosition.CENTER:
                 m_laneObject.lane = LaneObject.LanePosition.RIGHT;
+                moving = true;
                 break;
             case LaneObject.LanePosition.LEFT:
                 m_laneObject.lane = LaneObject.LanePosition.CENTER;
+                moving = true;
                 break;
             default:
                 break;
@@ -92,4 +116,5 @@ public class BallController : MonoBehaviour {
         yield return new WaitForSeconds(time);
         obj.enabled = enable;
     }
+
 }
