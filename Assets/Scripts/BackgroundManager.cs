@@ -29,9 +29,7 @@ public class BackgroundManager : MonoBehaviour
         if (obj)
         {
             obj.transform.position = upperPiece.transform.position + Vector3.up*pieceSize;
-            upperPiece.GetComponent<SpriteRenderer>().sortingOrder = 0;
             upperPiece = obj;
-            upperPiece.GetComponent<SpriteRenderer>().sortingOrder = 1;
         }
     }
 

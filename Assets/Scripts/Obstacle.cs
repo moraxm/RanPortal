@@ -24,10 +24,11 @@ public class Obstacle : AutomoveObject
             Vector3 dir = collision.transform.position - transform.position;
             BallController bc = collision.GetComponent<BallController>();
             Debug.Log(dir);
-            if (dir.normalized == Vector3.down)
-                OnPlayerEnterFront(collision);
-            else
-                OnPlayerEnterLateral(collision);
+            OnPlayerEnterFront(collision);
+            //if (dir.normalized == Vector3.down)
+            //    OnPlayerEnterFront(collision);
+            //else
+            //    OnPlayerEnterLateral(collision);
         }
     }
 
@@ -37,10 +38,11 @@ public class Obstacle : AutomoveObject
         {
             Vector3 dir = collision.transform.position - transform.position;
             Debug.Log(dir);
-            if (dir.normalized == Vector3.down)
-                OnPlayerExitFront(collision);
-            else
-                OnPlayerExitLateral(collision);
+            OnPlayerExitFront(collision);
+            //if (dir.normalized == Vector3.down)
+            //    OnPlayerExitFront(collision);
+            //else
+            //    OnPlayerExitLateral(collision);
         }
     }
 
