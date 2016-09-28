@@ -16,7 +16,7 @@ public class LaneObject : MonoBehaviour
 	}
 
     LanePosition m_lane;
-    public LanePosition lane
+    public virtual LanePosition lane
     {
         set
         {
