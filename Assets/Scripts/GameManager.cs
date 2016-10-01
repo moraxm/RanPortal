@@ -151,7 +151,7 @@ public class GameManager : MonoBehaviour, ISpeedSource
         state = GameState.GAME_OVER;
         m_currentSpeed = 0;
         m_obstacleGenerator.Restart();
-        m_gameOverMenu.SetActive(true);
+        AdsManager.instance.ShowAdVideo();
     }
 
     internal void PlayerInPortal(Portal portal)
@@ -197,5 +197,10 @@ public class GameManager : MonoBehaviour, ISpeedSource
         {
             return m_currentSpeed;
         }
+    }
+
+    internal void FinishedAd()
+    {
+        m_gameOverMenu.SetActive(true);
     }
 }
