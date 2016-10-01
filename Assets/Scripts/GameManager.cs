@@ -5,13 +5,14 @@ public class GameManager : MonoBehaviour, ISpeedSource
 {
     [Header("Menus")]
     public GameObject m_gameOverMenu;
-    public GameObject m_menuMenu;
     [Header("Controllers")]
     public ObstacleGenerator m_obstacleGenerator;
     public BallController m_player;
     [Header("Speeds")]
     public float teletransportingSpeed = 40;
     public float normalSpeed = 10;
+    [Range(0,1)]
+    public float speedIncrementWithPointsFactor = 0.25f;
     // Values per game
     private float m_currentSpeed = 0;
     private float m_points;
@@ -80,13 +81,14 @@ public class GameManager : MonoBehaviour, ISpeedSource
             Debug.LogError("No obstacle generator found!");
 
         m_obstacleGenerator.speedSource = this;
-        m_currentSpeed = normalSpeed;
+        speed = normalSpeed;
     }
 
     // Update is called once per frame
     void Update()
     {
         UpdatePoints();
+        UpdateSpeed();
         switch (state)
         {
             case GameState.MENU:
@@ -106,9 +108,14 @@ public class GameManager : MonoBehaviour, ISpeedSource
         }
     }
 
+    private void UpdateSpeed()
+    {
+        speed = m_currentSpeed;
+    }
+
     private void UpdatePoints()
     {
-        m_points += m_currentSpeed * Time.deltaTime;
+        m_points += speed * Time.deltaTime;
     }
 
     private void UpdateGameOver()
@@ -149,7 +156,7 @@ public class GameManager : MonoBehaviour, ISpeedSource
     internal void GameOver()
     {
         state = GameState.GAME_OVER;
-        m_currentSpeed = 0;
+        speed = 0;
         m_obstacleGenerator.Restart();
         AdsManager.instance.ShowAdVideo();
     }
@@ -157,7 +164,7 @@ public class GameManager : MonoBehaviour, ISpeedSource
     internal void PlayerInPortal(Portal portal)
     {
         state = GameState.TELETRANSPORTING;
-        m_currentSpeed = teletransportingSpeed;
+        speed = teletransportingSpeed;
         m_activePortal = portal;
         m_player.blocked = true;
         m_player.hide = true;
@@ -165,7 +172,7 @@ public class GameManager : MonoBehaviour, ISpeedSource
 
     private void TransitionToPlaying()
     {
-        m_currentSpeed = normalSpeed;
+        speed = normalSpeed;
         m_player.blocked = false;
         m_player.hide = false;
         state = GameState.PLAYING;
@@ -193,9 +200,11 @@ public class GameManager : MonoBehaviour, ISpeedSource
 
     public float speed
     {
-        get
+        get { return m_currentSpeed; }
+        set
         {
-            return m_currentSpeed;
+            if (value > 0) m_currentSpeed = value + points * speedIncrementWithPointsFactor * 0.001f;
+            else m_currentSpeed = 0;
         }
     }
 
