@@ -197,7 +197,10 @@ public class ObstacleGenerator : MonoBehaviour
 
     internal Portal GetRandomPortal(Portal activePortal)
     {
-        return m_randomPortal;
+        if (activePortal != m_randomPortal)
+            return m_randomPortal;
+        else
+            return null;
     }
 
     public void Restart()

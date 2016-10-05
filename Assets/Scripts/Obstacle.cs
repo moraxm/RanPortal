@@ -61,4 +61,11 @@ public class Obstacle : AutomoveObject
         GameManager.instance.GameOver();
     }
 
+    public void OnCollisionEnter2D(Collision2D collision)
+    {
+        OnTriggerEnter2D(collision.collider);
+    }
+
+    
+
 }

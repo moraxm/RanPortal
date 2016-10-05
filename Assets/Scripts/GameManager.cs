@@ -139,6 +139,7 @@ public class GameManager : MonoBehaviour, ISpeedSource
             {
                 // Transition to Playing
                 m_player.laneObject.lane = m_otherPortal.GetComponent<LaneObject>().lane;
+                speed = speed - teletransportingSpeed;
                 TransitionToPlaying();
             }
         }
@@ -157,22 +158,21 @@ public class GameManager : MonoBehaviour, ISpeedSource
     {
         state = GameState.GAME_OVER;
         speed = 0;
-        m_obstacleGenerator.Restart();
         AdsManager.instance.ShowAdVideo();
     }
 
     internal void PlayerInPortal(Portal portal)
     {
         state = GameState.TELETRANSPORTING;
-        speed = teletransportingSpeed;
+        speed = speed + teletransportingSpeed;
         m_activePortal = portal;
+        m_otherPortal = null;
         m_player.blocked = true;
         m_player.hide = true;
     }
 
     private void TransitionToPlaying()
     {
-        speed = normalSpeed;
         m_player.blocked = false;
         m_player.hide = false;
         state = GameState.PLAYING;
@@ -189,8 +189,10 @@ public class GameManager : MonoBehaviour, ISpeedSource
     {
         if (state == GameState.GAME_OVER)
         {
+            m_obstacleGenerator.Restart();
             m_gameOverMenu.SetActive(false);
             m_player.laneObject.lane = LaneObject.LanePosition.CENTER;
+            speed = normalSpeed;
             TransitionToPlaying();
             ResetPoints();
         }
