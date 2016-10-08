@@ -90,6 +90,7 @@ public class ObstacleGenerator : MonoBehaviour
                 obs = GetObstacle(lane);
             }
             obs.speedSource = GameManager.instance;
+            waveSpace = obs.size;
         }
     }
 

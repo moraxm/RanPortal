@@ -4,6 +4,11 @@ using UnityEngine.Events;
 
 public class Obstacle : AutomoveObject 
 {
+    public float m_size = 5;
+    public float size
+    {
+        get { return m_size; }
+    }
 
     LaneObject m_laneObject;
     public LaneObject laneObject
