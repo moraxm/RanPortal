@@ -11,8 +11,10 @@ public class GameManager : MonoBehaviour, ISpeedSource
     [Header("Speeds")]
     public float teletransportingSpeed = 40;
     public float normalSpeed = 10;
-    [Range(0,1)]
-    public float speedIncrementWithPointsFactor = 0.25f;
+    public int pointsToIncrement = 100;
+    public float incrementSpeed = 5;
+    public float maxSpeed = 40;
+    int m_currenWaveSpeed;
     // Values per game
     private float m_currentSpeed = 0;
     private float m_points;
@@ -82,6 +84,7 @@ public class GameManager : MonoBehaviour, ISpeedSource
 
         m_obstacleGenerator.speedSource = this;
         speed = normalSpeed;
+        m_currenWaveSpeed = 1;
     }
 
     // Update is called once per frame
@@ -110,7 +113,13 @@ public class GameManager : MonoBehaviour, ISpeedSource
 
     private void UpdateSpeed()
     {
-        speed = m_currentSpeed;
+        if (speed >= maxSpeed) return;
+        if (m_currenWaveSpeed * pointsToIncrement < m_points)
+        {
+            speed = speed + incrementSpeed;
+            ++m_currenWaveSpeed;
+        }
+        
     }
 
     private void UpdatePoints()
@@ -208,8 +217,7 @@ public class GameManager : MonoBehaviour, ISpeedSource
         get { return m_currentSpeed; }
         set
         {
-            if (value > 0) m_currentSpeed = value + points * speedIncrementWithPointsFactor * 0.001f;
-            else m_currentSpeed = 0;
+            m_currentSpeed = value;
         }
     }
 
