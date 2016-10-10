@@ -128,10 +128,13 @@ public class GameManager : MonoBehaviour, ISpeedSource
         {
             // Try again
             m_otherPortal = m_obstacleGenerator.GetRandomPortal(m_activePortal);
-            if (m_otherPortal.transform.position.y < m_player.transform.position.y)
-                m_otherPortal = null;
-            else
-                m_otherPortal.gameObject.layer = LayerMask.NameToLayer("IgnorePlayer");
+            if (m_otherPortal)
+            {
+                if (m_otherPortal.transform.position.y < m_player.transform.position.y)
+                    m_otherPortal = null;
+                else
+                    m_otherPortal.gameObject.layer = LayerMask.NameToLayer("IgnorePlayer");
+            }
         }
         else
         {
@@ -166,7 +169,7 @@ public class GameManager : MonoBehaviour, ISpeedSource
         state = GameState.TELETRANSPORTING;
         speed = speed + teletransportingSpeed;
         m_activePortal = portal;
-        m_otherPortal = null;
+        m_otherPortal = portal.nextPortal; // This could be null. If so, in the update we will find other portal.
         m_player.blocked = true;
         m_player.hide = true;
     }

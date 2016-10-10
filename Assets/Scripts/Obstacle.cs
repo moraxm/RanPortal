@@ -4,23 +4,8 @@ using UnityEngine.Events;
 
 public class Obstacle : AutomoveObject 
 {
-    public float m_size = 5;
-    public float size
-    {
-        get { return m_size; }
-    }
-
-    LaneObject m_laneObject;
-    public LaneObject laneObject
-    {
-        get { return m_laneObject; }
-    }
-
-	// Use this for initialization
-	void Start () 
-    {
-        m_laneObject = GetComponent<LaneObject>();
-	}
+    [Range(0,100)]
+    public int probability;
 
     public void OnTriggerEnter2D(Collider2D collision)
     {

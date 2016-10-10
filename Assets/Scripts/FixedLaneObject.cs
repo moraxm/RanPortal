@@ -16,4 +16,10 @@ public class FixedLaneObject : LaneObject
             base.lane = m_fixedPosition;
         }
     }
+
+    protected override void Start()
+    {
+        base.Start();
+        m_lane = m_fixedPosition;
+    }
 }

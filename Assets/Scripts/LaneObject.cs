@@ -11,11 +11,11 @@ public class LaneObject : MonoBehaviour
     }
 
 	// Use this for initialization
-	void Start () {
+	protected virtual void Start () {
         m_lane = LanePosition.CENTER;
 	}
 
-    LanePosition m_lane;
+    protected LanePosition m_lane;
     public virtual LanePosition lane
     {
         set

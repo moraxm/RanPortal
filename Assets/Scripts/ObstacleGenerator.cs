@@ -7,12 +7,9 @@ public class ObstacleGenerator : MonoBehaviour
     public ISpeedSource speedSource;
     public float waveSpace = 3;
     [Range(0,100)]
-    public int portalProbability;
-    [Range(0,100)]
     public int changePortalProbability;
 
     // Base objects for obstacles and portals
-    public Portal portal;
     public Obstacle[] obstacles;
     Portal m_randomPortal;
 
@@ -27,10 +24,21 @@ public class ObstacleGenerator : MonoBehaviour
     Transform m_portalPoolGO;
 
     // Pools
-    LinkedList<Obstacle> m_objectPool;
+    List<Obstacle> m_ObstaclesProbabilityList;
+    Dictionary<Obstacle, List<PoolObject>> m_obstaclePool;
+    class PoolObject
+    {
+        public PoolObject(Obstacle o)
+        {
+            obstacle = o;
+            inUse = false;
+        }
+        public Obstacle obstacle;
+        public bool inUse = false;
+    }
+    Dictionary<Obstacle, PoolObject> m_obstaclesInUse;
+
     public int m_maxObjectCount;
-    Stack<Portal> m_portalPool;
-    public int m_maxPortalCount;
 
     float m_acumSpace = 0;
     
@@ -39,35 +47,39 @@ public class ObstacleGenerator : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        // Creación del pool de obstáculos
-        m_objectPool = new LinkedList<Obstacle>();
+        m_obstaclesInUse = new Dictionary<Obstacle, PoolObject>();
+        m_obstaclePool = new Dictionary<Obstacle, List<PoolObject>>();
+        m_ObstaclesProbabilityList = new List<Obstacle>();
         m_objectPoolGO = new GameObject().transform;
         m_objectPoolGO.name = "Object Pool";
         m_objectPoolGO.transform.SetParent(poolPosition.transform);
         m_objectPoolGO.transform.localPosition = Vector3.zero;
-        for (int i = 0; i < m_maxObjectCount; ++i)
+
+        foreach (Obstacle o in obstacles)
         {
-            Obstacle obstacle = obstacles[Random.Range(0, obstacles.Length)];
-            GameObject obs = GameObject.Instantiate(obstacle.gameObject);
-            obs.transform.SetParent(m_objectPoolGO.transform);
-            obs.transform.localPosition = Vector3.zero;
-
-            m_objectPool.AddLast(obs.GetComponent<Obstacle>());
+            int probabilityLenght = Mathf.CeilToInt((float) o.probability * obstacles.Length / 100);
+            for (int i = 0; i < probabilityLenght; ++i)
+            {
+                m_ObstaclesProbabilityList.Add(o);
+            }
+            GameObject currentObstacleGO = new GameObject();
+            currentObstacleGO.name = o.gameObject.name;
+            currentObstacleGO.transform.SetParent(m_objectPoolGO);
+            currentObstacleGO.transform.localPosition = Vector3.zero;
+            GameObject obs = InstantiateGameObject(o.gameObject, currentObstacleGO.transform);
+            PoolObject pO = new PoolObject(obs.GetComponent<Obstacle>());
+            List<PoolObject> list = new List<PoolObject>();
+            list.Add(pO); // At least one element for each obstacle
+            m_obstaclePool.Add(o, list);
         }
+    }
 
-
-        m_portalPool = new Stack<Portal>();
-        m_portalPoolGO = new GameObject().transform;
-        m_portalPoolGO.name = "Portal Pool";
-        m_portalPoolGO.transform.SetParent(poolPosition.transform);
-        m_portalPoolGO.transform.localPosition = Vector3.zero;
-        for (int i = 0; i < m_maxPortalCount; ++i)
-        {
-            GameObject obs = GameObject.Instantiate(portal.gameObject);
-            obs.transform.SetParent(m_portalPoolGO.transform);
-            obs.transform.localPosition = Vector3.zero;
-            m_portalPool.Push(obs.GetComponent<Portal>());
-        }
+    GameObject InstantiateGameObject(GameObject other, Transform parent)
+    {
+        GameObject obs = GameObject.Instantiate(other.gameObject);
+        obs.transform.SetParent(parent.transform);
+        obs.transform.localPosition = Vector3.zero;
+        return obs;
     }
 
     // Update is called once per frame
@@ -78,16 +90,12 @@ public class ObstacleGenerator : MonoBehaviour
         {
             m_acumSpace -= waveSpace;
             int lane = Random.Range(0, 3);
-            int obstacleOrPortal = Random.Range(0, 100);
-            Obstacle obs;
-            if (obstacleOrPortal < portalProbability)
+            int probability = Random.Range(0, 100);
+            AutomoveObject obs;
+            obs = GetObstacle(lane, probability);
+            if (obs is Portal)
             {
-                obs = GetPortal(lane);
                 m_randomPortal = ChangeRandomPortal(obs as Portal);
-            }
-            else
-            {
-                obs = GetObstacle(lane);
             }
             obs.speedSource = GameManager.instance;
             waveSpace = obs.size;
@@ -109,13 +117,6 @@ public class ObstacleGenerator : MonoBehaviour
         }
     }
 
-    private Obstacle GetPortal(int lane)
-    {
-        Obstacle toReturn = m_portalPool.Pop();
-        SetObstaclePosition(toReturn, lane);
-        return toReturn;
-    }
-
     private void SetObstaclePosition(Obstacle obstace, int lane)
     {
         switch (lane)
@@ -123,51 +124,68 @@ public class ObstacleGenerator : MonoBehaviour
             case 0:
                 obstace.transform.position = spawmPositionLeft.position;
                 obstace.laneObject.lane = LaneObject.LanePosition.LEFT;
-                obstace.transform.SetParent(spawmPositionLeft);
+                //obstace.transform.SetParent(spawmPositionLeft);
                 break;
             case 1:
                 obstace.transform.position = spawmPositionCenter.position;
                 obstace.laneObject.lane = LaneObject.LanePosition.CENTER;
-                obstace.transform.SetParent(spawmPositionCenter);
+                //obstace.transform.SetParent(spawmPositionCenter);
                 break;
             case 2:
                 obstace.transform.position = spawmPositionRight.position;
                 obstace.laneObject.lane = LaneObject.LanePosition.RIGHT;
-                obstace.transform.SetParent(spawmPositionRight);
+                //obstace.transform.SetParent(spawmPositionRight);
                 break;
             default:
                 break;
         }
     }
 
-    private Obstacle GetObstacle(int lane)
+    private PoolObject GetObstacleFromPool(Obstacle type)
     {
-        Obstacle toReturn = null;
-        int obstacleIdx = Random.Range(0, m_objectPool.Count);
-        int i = 0;
-        // Find the random obstacle in the list. O(N) but O(1) removing the element.
-        foreach (Obstacle o in m_objectPool)
+        List<PoolObject> currentObjects = m_obstaclePool[type];
+        foreach (PoolObject pO in currentObjects)
         {
-            if (i == obstacleIdx)
+            if (!pO.inUse)
             {
-                toReturn = o;
-                break;
+                return pO;
             }
-            ++i;
         }
-        m_objectPool.Remove(toReturn);
-        // TODO si el pool no tiene obstáculos y devuelve null
+        if (currentObjects.Count < m_maxObjectCount)
+        {
+            GameObject obs = InstantiateGameObject(type.gameObject, m_obstaclePool[type][0].obstacle.transform.parent);
+            PoolObject newPO = new PoolObject(obs.GetComponent<Obstacle>());
 
+            currentObjects.Add(newPO);
+            return newPO;
+        }
+        else
+        {
+            // The pool is full. We can not create new objects
+            return null;
+        }
+    }
+
+    private Obstacle GetObstacle(int lane, int probability)
+    {
+        int idx = probability * m_ObstaclesProbabilityList.Count / 100;
+        Obstacle obstacleType = m_ObstaclesProbabilityList[idx];
+        PoolObject pO = GetObstacleFromPool(obstacleType);
+        pO.inUse = true;
+        if (m_obstaclesInUse.ContainsKey(pO.obstacle)) Debug.LogError("Algo ha ido mal");
+
+        m_obstaclesInUse.Add(pO.obstacle, pO);
         // position
-        SetObstaclePosition(toReturn, lane);
-
-        return toReturn;
+        SetObstaclePosition(pO.obstacle, lane);
+        return pO.obstacle;
     }
 
     public void OnTriggerEnter2D(Collider2D collision)
     {
         // Set the obstacle to the pool again
         Obstacle obstacle = collision.GetComponent<Obstacle>();
+        if (obstacle.dontDestroy) return;
+
         if (obstacle != null)
         {
             ReUseObstacle(obstacle);
@@ -180,18 +198,11 @@ public class ObstacleGenerator : MonoBehaviour
         {
             obstacle.speedSource = null;
             obstacle.gameObject.layer = LayerMask.NameToLayer("Default");
-            if (obstacle is Portal)
+            if (m_obstaclesInUse.ContainsKey(obstacle))
             {
-
-                m_portalPool.Push(obstacle as Portal);
-                obstacle.transform.SetParent(m_portalPoolGO);
-                obstacle.transform.localPosition = Vector3.zero;
-            }
-            else
-            {
-                m_objectPool.AddLast(obstacle);
-                obstacle.transform.SetParent(m_objectPoolGO);
-                obstacle.transform.localPosition = Vector3.zero;
+                PoolObject pO = m_obstaclesInUse[obstacle];
+                pO.inUse = false;
+                m_obstaclesInUse.Remove(pO.obstacle);
             }
         }
     }
@@ -206,21 +217,11 @@ public class ObstacleGenerator : MonoBehaviour
 
     public void Restart()
     {
-        Obstacle[] obstacles = spawmPositionLeft.GetComponentsInChildren<Obstacle>();
+        Obstacle[] obstacles = m_objectPoolGO.GetComponentsInChildren<Obstacle>();
         foreach (Obstacle o in obstacles)
         {
             ReUseObstacle(o);
-        }
-        obstacles = spawmPositionRight.GetComponentsInChildren<Obstacle>();
-        foreach (Obstacle o in obstacles)
-        {
-            ReUseObstacle(o);
-        }
-
-        obstacles = spawmPositionCenter.GetComponentsInChildren<Obstacle>();
-        foreach (Obstacle o in obstacles)
-        {
-            ReUseObstacle(o);
+            SetObstaclePosition(o, 0);
         }
     }
 }
