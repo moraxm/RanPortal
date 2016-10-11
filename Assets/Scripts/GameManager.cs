@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.Events;
 
 public class GameManager : MonoBehaviour, ISpeedSource
 {
@@ -8,6 +9,13 @@ public class GameManager : MonoBehaviour, ISpeedSource
     [Header("Controllers")]
     public ObstacleGenerator m_obstacleGenerator;
     public BallController m_player;
+    [Header("Count down events")]
+    public UnityEvent on3CountDown;
+    public UnityEvent on2CountDown;
+    public UnityEvent on1CountDown;
+    public UnityEvent on0CountDown;
+    float m_acumTime;
+    int m_second;
     [Header("Speeds")]
     public float teletransportingSpeed = 40;
     public float normalSpeed = 10;
@@ -52,6 +60,7 @@ public class GameManager : MonoBehaviour, ISpeedSource
     public enum GameState
     {
         MENU,
+        COUNT_DOWN,
         PLAYING,
         TELETRANSPORTING,
         GAME_OVER
@@ -75,7 +84,6 @@ public class GameManager : MonoBehaviour, ISpeedSource
     // Use this for initialization
     void Start()
     {
-        state = GameState.PLAYING;
         if (!m_obstacleGenerator)
             m_obstacleGenerator = FindObjectOfType<ObstacleGenerator>();
 
@@ -83,8 +91,9 @@ public class GameManager : MonoBehaviour, ISpeedSource
             Debug.LogError("No obstacle generator found!");
 
         m_obstacleGenerator.speedSource = this;
-        speed = normalSpeed;
         m_currenWaveSpeed = 1;
+
+        TransitionToCountDown();
     }
 
     // Update is called once per frame
@@ -94,6 +103,9 @@ public class GameManager : MonoBehaviour, ISpeedSource
         UpdateSpeed();
         switch (state)
         {
+            case GameState.COUNT_DOWN:
+                UpdateCountDown();
+                break;
             case GameState.MENU:
                 UpdateMenu();
                 break;
@@ -108,6 +120,31 @@ public class GameManager : MonoBehaviour, ISpeedSource
                 break;
             default:
                 break;
+        }
+    }
+
+    private void UpdateCountDown()
+    {
+        m_acumTime += Time.deltaTime;
+        if (m_acumTime > 1)
+        {
+            m_acumTime -= 1;
+            --m_second;
+            switch (m_second)
+            {
+                case 2:
+                    on2CountDown.Invoke();
+                    break;
+                case 1:
+                    on1CountDown.Invoke();
+                    break;
+                case 0:
+                    on0CountDown.Invoke();
+                    TransitionToPlaying();
+                    break;
+                default:
+                    break;
+            }
         }
     }
 
@@ -190,6 +227,16 @@ public class GameManager : MonoBehaviour, ISpeedSource
         state = GameState.PLAYING;
         m_otherPortal = null;
         m_activePortal = null;
+        speed = normalSpeed;
+    }
+
+    private void TransitionToCountDown()
+    {
+        on3CountDown.Invoke();
+        m_acumTime = 0;
+        m_second = 3;
+        speed = 0;
+        state = GameState.COUNT_DOWN;
     }
 
     private void ResetPoints()
@@ -204,8 +251,7 @@ public class GameManager : MonoBehaviour, ISpeedSource
             m_obstacleGenerator.Restart();
             m_gameOverMenu.SetActive(false);
             m_player.laneObject.lane = LaneObject.LanePosition.CENTER;
-            speed = normalSpeed;
-            TransitionToPlaying();
+            TransitionToCountDown();
             ResetPoints();
         }
     }

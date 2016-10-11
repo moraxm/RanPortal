@@ -25,11 +25,20 @@ public class BackgroundManager : MonoBehaviour
 
     public void OnTriggerEnter2D(Collider2D collision)
     {
+        
+
         AutomoveObject obj = collision.GetComponent<AutomoveObject>();
         if (obj)
         {
-            obj.transform.position = upperPiece.transform.position + Vector3.up*pieceSize;
-            upperPiece = obj;
+            if (obj.CompareTag("DontReuse"))
+            {
+                obj.speedSource = null;
+            }
+            else
+            {
+                obj.transform.position = upperPiece.transform.position + Vector3.up * pieceSize;
+                upperPiece = obj;
+            }
         }
     }
 

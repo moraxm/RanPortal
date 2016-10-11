@@ -182,12 +182,10 @@ public class ObstacleGenerator : MonoBehaviour
     {
         // Set the obstacle to the pool again
         Obstacle obstacle = collision.GetComponent<Obstacle>();
+        if (obstacle == null) return;
         if (obstacle.dontDestroy) return;
 
-        if (obstacle != null)
-        {
-            ReUseObstacle(obstacle);
-        }
+        ReUseObstacle(obstacle);
     }
 
     private void ReUseObstacle(Obstacle obstacle)
