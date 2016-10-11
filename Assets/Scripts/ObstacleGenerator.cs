@@ -91,25 +91,23 @@ public class ObstacleGenerator : MonoBehaviour
             m_acumSpace -= waveSpace;
             int lane = Random.Range(0, 3);
             int probability = Random.Range(0, 100);
-            AutomoveObject obs;
+            Obstacle obs;
             obs = GetObstacle(lane, probability);
-            if (obs is Portal)
-            {
-                m_randomPortal = ChangeRandomPortal(obs as Portal);
-            }
+            m_randomPortal = ChangeRandomPortal(obs);
             obs.speedSource = GameManager.instance;
             waveSpace = obs.size;
         }
     }
 
-    private Portal ChangeRandomPortal(Portal portalToChange)
+    private Portal ChangeRandomPortal(Obstacle portalToChange)
     {
-        if (m_randomPortal == null) return portalToChange;
+        Portal toReturn = portalToChange.GetPortal();
+        if (toReturn == null) return m_randomPortal; // The obstacle is not a Portal
 
         int changePortal = Random.Range(0, 100);
         if (changePortal < changePortalProbability)
         {
-            return portalToChange;
+            return toReturn;
         }
         else
         {

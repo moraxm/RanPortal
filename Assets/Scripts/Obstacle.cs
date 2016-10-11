@@ -7,6 +7,11 @@ public class Obstacle : AutomoveObject
     [Range(0,100)]
     public int probability;
 
+    public virtual Portal GetPortal()
+    {
+        return null;
+    }
+
     public void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.tag == "Ball")

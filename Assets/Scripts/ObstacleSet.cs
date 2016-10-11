@@ -3,6 +3,7 @@ using System.Collections;
 
 public class ObstacleSet : Obstacle 
 {
+    Portal[] m_portals;
     public override void Awake()
     {
         base.Awake();
@@ -11,6 +12,14 @@ public class ObstacleSet : Obstacle
         {
             o.dontDestroy = true;
         }
+
+        m_portals = GetComponentsInChildren<Portal>();
+    }
+
+    public override Portal GetPortal()
+    {
+        int idx = Random.Range(0, m_portals.Length);
+        return m_portals[idx];
     }
 
     protected override void OnPlayerEnterFront(Collider2D collision)

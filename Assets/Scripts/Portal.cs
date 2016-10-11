@@ -14,4 +14,9 @@ public class Portal : Obstacle
     {
         GameManager.instance.PlayerInPortal(this);
     }
+
+    public override Portal GetPortal()
+    {
+        return this;
+    }
 }
