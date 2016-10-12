@@ -49,11 +49,12 @@ public class GameManager : MonoBehaviour, ISpeedSource
         if (m_instance != null)
         {
             Destroy(this);
+            m_instance.Start();
         }
         else
         {
             m_instance = this;
-            DontDestroyOnLoad(this.gameObject);
+            //DontDestroyOnLoad(this.gameObject);
         }
     }
 
@@ -84,13 +85,17 @@ public class GameManager : MonoBehaviour, ISpeedSource
     // Use this for initialization
     void Start()
     {
-        if (!m_obstacleGenerator)
-            m_obstacleGenerator = FindObjectOfType<ObstacleGenerator>();
+        m_obstacleGenerator = FindObjectOfType<ObstacleGenerator>();
 
         if (!m_obstacleGenerator)
             Debug.LogError("No obstacle generator found!");
 
         m_obstacleGenerator.speedSource = this;
+
+        m_player = FindObjectOfType<BallController>();
+        if (!m_obstacleGenerator)
+            Debug.LogError("No player found!");
+
         m_currenWaveSpeed = 1;
 
         TransitionToCountDown();
@@ -208,7 +213,9 @@ public class GameManager : MonoBehaviour, ISpeedSource
         state = GameState.GAME_OVER;
         speed = 0;
         AdsManager.instance.ShowAdVideo();
+        Persistance.SavePoints(points);
     }
+
 
     internal void PlayerInPortal(Portal portal)
     {
@@ -271,4 +278,5 @@ public class GameManager : MonoBehaviour, ISpeedSource
     {
         m_gameOverMenu.SetActive(true);
     }
+
 }
