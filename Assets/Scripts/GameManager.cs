@@ -212,6 +212,7 @@ public class GameManager : MonoBehaviour, ISpeedSource
     {
         state = GameState.GAME_OVER;
         speed = 0;
+        m_player.Kill();
         AdsManager.instance.ShowAdVideo();
         Persistance.SavePoints(points);
     }
@@ -257,6 +258,7 @@ public class GameManager : MonoBehaviour, ISpeedSource
         {
             m_obstacleGenerator.Restart();
             m_gameOverMenu.SetActive(false);
+            m_player.Reset();
             m_player.laneObject.lane = LaneObject.LanePosition.CENTER;
             TransitionToCountDown();
             ResetPoints();

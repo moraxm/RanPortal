@@ -3,6 +3,7 @@ using System.Collections;
 
 public class BallController : MonoBehaviour {
 
+    public ParticleSystem m_particleSystem;
     public float invulnerableTime = 0.5f;
     LaneObject m_laneObject;
     public LaneObject laneObject
@@ -117,4 +118,15 @@ public class BallController : MonoBehaviour {
         obj.enabled = enable;
     }
 
+    public void Kill()
+    {
+        m_spriteRenderer.enabled = false;
+        m_particleSystem.Play();
+    }
+
+    public void Reset()
+    {
+        m_spriteRenderer.enabled = true;
+        m_particleSystem.Stop();
+    }
 }
