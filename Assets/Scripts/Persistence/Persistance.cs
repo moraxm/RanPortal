@@ -8,6 +8,7 @@ public class Persistance
     public const string SG_RANKING_1_ID = "Ranking1";
     public const string SG_RANKING_2_ID = "Ranking2";
     public const string SG_RANKING_3_ID = "Ranking3";
+    public const string SG_COINS_ID = "Coins";
 
     public static int ranking1
     {
@@ -62,6 +63,12 @@ public class Persistance
     public static void SaveBalls(int balls)
     {
         PlayerPrefs.SetInt(SG_BALLS_ID, balls);
+        PlayerPrefs.Save();
+    }
+
+    internal static void SaveCoins(int coins)
+    {
+        PlayerPrefs.SetInt(SG_COINS_ID, coins);
         PlayerPrefs.Save();
     }
 }

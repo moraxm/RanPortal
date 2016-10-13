@@ -183,8 +183,8 @@ public class ObstacleGenerator : MonoBehaviour
         // Set the obstacle to the pool again
         Obstacle obstacle = collision.GetComponent<Obstacle>();
         if (obstacle == null) return;
+        obstacle.Reset();
         if (obstacle.dontDestroy) return;
-
         ReUseObstacle(obstacle);
     }
 
@@ -193,7 +193,6 @@ public class ObstacleGenerator : MonoBehaviour
         if (obstacle != null)
         {
             obstacle.speedSource = null;
-            obstacle.gameObject.layer = LayerMask.NameToLayer("Default");
             if (m_obstaclesInUse.ContainsKey(obstacle))
             {
                 PoolObject pO = m_obstaclesInUse[obstacle];

@@ -61,6 +61,11 @@ public class Obstacle : AutomoveObject
         OnTriggerEnter2D(collision.collider);
     }
 
-    
 
+
+
+    internal virtual void Reset()
+    {
+        gameObject.layer = LayerMask.NameToLayer("Default");
+    }
 }

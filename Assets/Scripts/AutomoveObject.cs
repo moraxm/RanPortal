@@ -36,5 +36,5 @@ public class AutomoveObject : MonoBehaviour
             transform.position += Vector3.down * speedSource.speed * Time.deltaTime;
     }
 
-    public bool dontDestroy { get; set; }
+    public bool dontDestroy;
 }

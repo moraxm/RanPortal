@@ -33,7 +33,14 @@ public class GameManager : MonoBehaviour, ISpeedSource
             return (int) m_points;
         }
     }
-    
+    private int m_coins;
+    public int coins
+    {
+        get
+        {
+            return m_coins;
+        }
+    }
 
     static GameManager m_instance;
     public static GameManager instance
@@ -86,7 +93,7 @@ public class GameManager : MonoBehaviour, ISpeedSource
     void Start()
     {
         m_obstacleGenerator = FindObjectOfType<ObstacleGenerator>();
-
+        m_coins = 0;
         if (!m_obstacleGenerator)
             Debug.LogError("No obstacle generator found!");
 
@@ -206,6 +213,7 @@ public class GameManager : MonoBehaviour, ISpeedSource
 
     private void UpdateMenu()
     {
+
     }
 
     internal void GameOver()
@@ -215,6 +223,7 @@ public class GameManager : MonoBehaviour, ISpeedSource
         m_player.Kill();
         AdsManager.instance.ShowAdVideo();
         Persistance.SavePoints(points);
+        Persistance.SaveCoins(coins);
     }
 
 
@@ -281,4 +290,9 @@ public class GameManager : MonoBehaviour, ISpeedSource
         m_gameOverMenu.SetActive(true);
     }
 
+
+    internal void CollectCoin()
+    {
+        ++m_coins;
+    }
 }
