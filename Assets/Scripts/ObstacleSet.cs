@@ -12,7 +12,7 @@ public class ObstacleSet : Obstacle
         {
             o.dontDestroy = true;
         }
-
+        dontDestroy = false;
         m_portals = GetComponentsInChildren<Portal>();
     }
 
