@@ -93,7 +93,7 @@ public class GameManager : MonoBehaviour, ISpeedSource
     void Start()
     {
         m_obstacleGenerator = FindObjectOfType<ObstacleGenerator>();
-        m_coins = 0;
+        m_coins = Persistance.coins;
         if (!m_obstacleGenerator)
             Debug.LogError("No obstacle generator found!");
 
@@ -294,5 +294,13 @@ public class GameManager : MonoBehaviour, ISpeedSource
     internal void CollectCoin()
     {
         ++m_coins;
+    }
+
+    public void Pause()
+    {
+        if (Time.timeScale == 0)
+            Time.timeScale = 1;
+        else
+            Time.timeScale = 0;
     }
 }

@@ -26,6 +26,11 @@ public class Persistance
     {
         get { return PlayerPrefs.GetInt(SG_BALLS_ID); }
     }
+    public static int coins 
+    { 
+        get { return PlayerPrefs.GetInt(SG_COINS_ID);}
+    }
+
 
     public static void SavePoints(int points)
     {
@@ -71,4 +76,6 @@ public class Persistance
         PlayerPrefs.SetInt(SG_COINS_ID, coins);
         PlayerPrefs.Save();
     }
+
+    
 }

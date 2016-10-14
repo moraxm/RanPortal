@@ -48,6 +48,8 @@ public class BallController : MonoBehaviour {
         get;
     }
     private int m_movingFlagFrames;
+    private PlayerSounds m_sounds;
+
 
 	// Use this for initialization
 	void Start () 
@@ -55,6 +57,7 @@ public class BallController : MonoBehaviour {
         m_laneObject = GetComponent<LaneObject>();
         m_spriteRenderer = GetComponent<SpriteRenderer>();
         m_collider = GetComponent<Collider2D>();
+        m_sounds = GetComponent<PlayerSounds>();
         blocked = false;
         m_movingFlagFrames = 0;
 	}
@@ -71,6 +74,7 @@ public class BallController : MonoBehaviour {
             ++m_movingFlagFrames;
         if (m_movingFlagFrames > 1)
         {
+            m_sounds.PlayChangeLane();
             moving = false;
             m_movingFlagFrames = 0;
         }
@@ -79,6 +83,7 @@ public class BallController : MonoBehaviour {
     public void moveLeft()
     {
         if (blocked) return;
+        
         switch (m_laneObject.lane)
         {
             case LaneObject.LanePosition.CENTER:
@@ -97,6 +102,7 @@ public class BallController : MonoBehaviour {
     public void moveRight()
     {
         if (blocked) return;
+
         switch (m_laneObject.lane)
         {
             case LaneObject.LanePosition.CENTER:
@@ -120,6 +126,7 @@ public class BallController : MonoBehaviour {
 
     public void Kill()
     {
+        m_sounds.PlayDeath(true);
         m_spriteRenderer.enabled = false;
         m_particleSystem.Play();
     }

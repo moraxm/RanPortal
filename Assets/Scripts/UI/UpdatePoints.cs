@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 public class UpdatePoints : MonoBehaviour
 {
-    Text m_textComponent;
+    protected Text m_textComponent;
     // Use this for initialization
     void Start()
     {
@@ -13,7 +13,7 @@ public class UpdatePoints : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    protected virtual void Update()
     {
         m_textComponent.text = GameManager.instance.points.ToString();
     }
