@@ -93,7 +93,6 @@ public class GameManager : MonoBehaviour, ISpeedSource
     void Start()
     {
         m_obstacleGenerator = FindObjectOfType<ObstacleGenerator>();
-        m_coins = Persistance.coins;
         if (!m_obstacleGenerator)
             Debug.LogError("No obstacle generator found!");
 
@@ -253,6 +252,7 @@ public class GameManager : MonoBehaviour, ISpeedSource
         m_acumTime = 0;
         m_second = 3;
         speed = 0;
+        m_coins = 0;
         state = GameState.COUNT_DOWN;
         m_player.blocked = true;
     }
