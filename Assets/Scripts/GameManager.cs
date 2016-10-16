@@ -254,6 +254,7 @@ public class GameManager : MonoBehaviour, ISpeedSource
         m_second = 3;
         speed = 0;
         state = GameState.COUNT_DOWN;
+        m_player.blocked = true;
     }
 
     private void ResetPoints()

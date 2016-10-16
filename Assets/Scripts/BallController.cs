@@ -58,7 +58,6 @@ public class BallController : MonoBehaviour {
         m_spriteRenderer = GetComponent<SpriteRenderer>();
         m_collider = GetComponent<Collider2D>();
         m_sounds = GetComponent<PlayerSounds>();
-        blocked = false;
         m_movingFlagFrames = 0;
 	}
 	
