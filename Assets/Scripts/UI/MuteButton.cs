@@ -1,40 +1,49 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.Audio;
+using UnityEngine.UI;
 
 public class MuteButton : MonoBehaviour 
 {
     public AudioMixer m_mixer;
+    public Sprite m_muteImage;
+    public Sprite m_noMuteImage;
+    public string m_mixerParamenterName;
+    private Image m_ImageComponent;
 
-    const string MUSIC_VOLUME_PARAMETER_NAME = "MusicVolume";
-    const string FX_VOLUME_PARAMETER_NAME = "FxVolume";
-
-    public void MuteMusic()
+    public void Start()
     {
-        MuteParameter(MUSIC_VOLUME_PARAMETER_NAME);
+        m_ImageComponent = GetComponent<Image>();
+        m_ImageComponent.sprite = isMuted ? m_muteImage : m_noMuteImage;
     }
 
-    public void MuteFx()
+    public void Mute()
     {
-        MuteParameter(FX_VOLUME_PARAMETER_NAME);
-    }
-
-    private void MuteParameter(string parameterName)
-    {
-        float volume;
-        if (m_mixer.GetFloat(parameterName, out volume))
+        if (isMuted)
         {
-            if (Mathf.Approximately(volume, 0))
-            {
-                // The volume is on, so mute
-                m_mixer.SetFloat(parameterName, -80);
-            }
-            else
-            {
-                // The volume is muted, so turn on
-                m_mixer.SetFloat(parameterName, 0);
-            }
+            // The volume is muted, so turn on
+            m_mixer.SetFloat(m_mixerParamenterName, 0);
+            m_ImageComponent.sprite = m_noMuteImage;
+        }
+        else
+        {
+            // The volume is on, so mute
+            m_mixer.SetFloat(m_mixerParamenterName, -80);
+            m_ImageComponent.sprite = m_muteImage;
         }
     }
 
+    private bool isMuted
+    {
+        get
+        {
+            float volume;
+            if (m_mixer.GetFloat(m_mixerParamenterName, out volume))
+            {
+                return Mathf.Approximately(volume, -80);
+            }
+            return false;
+        }
+        
+    }
 }
