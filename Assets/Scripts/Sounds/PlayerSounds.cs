@@ -12,7 +12,7 @@ public class PlayerSounds : MonoBehaviour
 	// Use this for initialization
 	void Start () 
     {
-        m_audioSource = gameObject.AddComponent<AudioSource>();
+        m_audioSource = gameObject.GetComponent<AudioSource>();
         m_audioSource.loop = false;
         m_audioSource.playOnAwake = false;
 	}
