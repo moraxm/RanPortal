@@ -49,7 +49,7 @@ public class BallController : MonoBehaviour {
     }
     private int m_movingFlagFrames;
     private PlayerSounds m_sounds;
-
+    private Animator m_animator;
 
 	// Use this for initialization
 	void Start () 
@@ -58,6 +58,7 @@ public class BallController : MonoBehaviour {
         m_spriteRenderer = GetComponent<SpriteRenderer>();
         m_collider = GetComponent<Collider2D>();
         m_sounds = GetComponent<PlayerSounds>();
+        m_animator = GetComponent<Animator>();
         m_movingFlagFrames = 0;
 	}
 	
@@ -134,5 +135,18 @@ public class BallController : MonoBehaviour {
     {
         m_spriteRenderer.enabled = true;
         m_particleSystem.Stop();
+    }
+
+    public int currentSkinIdx 
+    {
+        get
+        {
+            return m_animator.GetInteger("Index");
+        }
+        set
+        {
+            m_animator.SetInteger("Index",value);
+        }
+    
     }
 }
