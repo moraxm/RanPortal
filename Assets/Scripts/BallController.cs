@@ -1,7 +1,40 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 
 public class BallController : MonoBehaviour {
+
+    public enum BALL_SKINS
+    {
+        BALL,
+        BLACK,
+        CANDY,
+        CIRCUS,
+        GREEN,
+        PURPLE,
+        RED,
+        SKULL,
+        SPIKE,
+        SPIKE_RED,
+    }
+    private static BALL_SKINS m_currentSkin;
+    public static int currentSkinIdx
+    {
+        get
+        {
+            return (int)m_currentSkin;
+        }
+        set
+        {
+            int length = Enum.GetNames(typeof(BALL_SKINS)).Length;
+            if (value >= length)
+                value = 0;
+            else if (value < 0)
+                value = length - 1;
+
+            m_currentSkin = (BALL_SKINS)value;
+        }
+    }
 
     public ParticleSystem m_particleSystem;
     public float invulnerableTime = 0.5f;
@@ -135,18 +168,6 @@ public class BallController : MonoBehaviour {
     {
         m_spriteRenderer.enabled = true;
         m_particleSystem.Stop();
-    }
-
-    public int currentSkinIdx 
-    {
-        get
-        {
-            return m_animator.GetInteger("Index");
-        }
-        set
-        {
-            m_animator.SetInteger("Index",value);
-        }
-    
+        m_animator.SetInteger("Index", Persistance.skin);
     }
 }

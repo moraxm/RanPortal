@@ -1,10 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Persistance  
+public class Persistance : MonoBehaviour
 {
     public const string SG_POINTS_ID = "Points";
     public const string SG_BALLS_ID = "Balls";
+    public const string SG_CURRENT_SKIN_ID = "Skin";
     public const string SG_RANKING_1_ID = "Ranking1";
     public const string SG_RANKING_2_ID = "Ranking2";
     public const string SG_RANKING_3_ID = "Ranking3";
@@ -26,6 +27,17 @@ public class Persistance
     {
         get { return PlayerPrefs.GetInt(SG_BALLS_ID); }
     }
+    public static bool isBallActive(int idx)
+    {
+        int mask = (int)Mathf.Pow(10,idx);
+        return (balls & mask) != 0;
+    }
+
+    public static int skin
+    {
+        get { return PlayerPrefs.GetInt(SG_CURRENT_SKIN_ID); }
+    }
+
     public static int coins 
     { 
         get { return PlayerPrefs.GetInt(SG_COINS_ID);}
@@ -65,9 +77,11 @@ public class Persistance
         SetSecond(prevFirst);
     }
 
-    public static void SaveBalls(int balls)
+    public static void UnlockBall(int idx)
     {
-        PlayerPrefs.SetInt(SG_BALLS_ID, balls);
+        int mask = (int)Mathf.Pow(10,idx);
+        int result = mask | balls;
+        PlayerPrefs.SetInt(SG_BALLS_ID, result);
         PlayerPrefs.Save();
     }
 
@@ -75,6 +89,20 @@ public class Persistance
     {
         PlayerPrefs.SetInt(SG_COINS_ID, coins);
         PlayerPrefs.Save();
+    }
+
+    internal static void SaveSkin(int skin)
+    {
+        PlayerPrefs.SetInt(SG_CURRENT_SKIN_ID, skin);
+        PlayerPrefs.Save();
+    }
+
+    public void Awake()
+    {
+        if (Persistance.balls == 0)
+        {
+            Persistance.UnlockBall(0);
+        }
     }
 
     

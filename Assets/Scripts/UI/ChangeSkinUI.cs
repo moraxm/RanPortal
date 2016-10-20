@@ -6,8 +6,8 @@ public class ChangeSkinUI : MonoBehaviour {
 
     [Range(0,2)]
     public float animationSpeed;
-    Image m_imageComponent;
-    Animator m_animator;
+    protected Image m_imageComponent;
+    protected Animator m_animator;
 	// Use this for initialization
 	void Start () 
     {
@@ -16,15 +16,23 @@ public class ChangeSkinUI : MonoBehaviour {
         m_animator.speed = animationSpeed;
 	}
 
-    public void NextSkin()
+    public virtual void NextSkin()
     {
-        ++GameManager.instance.currentSkinIdx;
-        m_animator.SetInteger("Index", GameManager.instance.currentSkinIdx);
+        do
+        {
+            ++BallController.currentSkinIdx;
+        }
+        while (Persistance.isBallActive(BallController.currentSkinIdx));
+        m_animator.SetInteger("Index", BallController.currentSkinIdx);
     }
 
-    public void PrevSkin()
+    public virtual void PrevSkin()
     {
-        --GameManager.instance.currentSkinIdx;
-        m_animator.SetInteger("Index", GameManager.instance.currentSkinIdx);
+        do
+        {
+            --BallController.currentSkinIdx;
+        }
+        while (Persistance.isBallActive(BallController.currentSkinIdx));
+        m_animator.SetInteger("Index", BallController.currentSkinIdx);
     }
 }

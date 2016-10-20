@@ -5,20 +5,6 @@ using System;
 
 public class GameManager : MonoBehaviour, ISpeedSource
 {
-    public enum BALL_SKINS
-    {
-        BALL,
-        BLACK,
-        CANDY,
-        CIRCUS,
-        GREEN,
-        PURPLE,
-        RED,
-        SKULL,
-        SPIKE,
-        SPIKE_RED,
-    }
-
     [Header("Menus")]
     public GameObject m_gameOverMenu;
     [Header("Controllers")]
@@ -54,26 +40,6 @@ public class GameManager : MonoBehaviour, ISpeedSource
         get
         {
             return m_coins;
-        }
-    }
-
-    private BALL_SKINS m_currentSkin;
-    public int currentSkinIdx 
-    {
-        get
-        {
-            return (int) m_currentSkin;
-        }
-        set
-        {
-            int length = Enum.GetNames(typeof(BALL_SKINS)).Length;
-            if (value >= length)
-                value = 0;
-            else if (value < 0)
-                value = length - 1;
-            
-            m_currentSkin = (BALL_SKINS)value;
-            m_player.currentSkinIdx = value;
         }
     }
 
