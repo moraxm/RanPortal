@@ -17,4 +17,15 @@ public class BallStore : MonoBehaviour {
         return Persistance.coins >= getPrize(idx);
     }
 
+    public void BuyBall(int idx)
+    {
+        if (!enoughtCoins(idx))
+            Debug.LogError("Not enought coins for buy that ball");
+
+        int currentCoins = Persistance.coins;
+        currentCoins -= getPrize(idx);
+        Persistance.UnlockBall(idx);
+        Persistance.SaveCoins(currentCoins);
+    }
+
 }

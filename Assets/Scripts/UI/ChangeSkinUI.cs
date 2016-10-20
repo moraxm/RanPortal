@@ -22,8 +22,8 @@ public class ChangeSkinUI : MonoBehaviour {
         {
             ++BallController.currentSkinIdx;
         }
-        while (Persistance.isBallActive(BallController.currentSkinIdx));
-        m_animator.SetInteger("Index", BallController.currentSkinIdx);
+        while (!Persistance.isBallActive(BallController.currentSkinIdx));
+        UpdateSkin();
     }
 
     public virtual void PrevSkin()
@@ -32,7 +32,12 @@ public class ChangeSkinUI : MonoBehaviour {
         {
             --BallController.currentSkinIdx;
         }
-        while (Persistance.isBallActive(BallController.currentSkinIdx));
+        while (!Persistance.isBallActive(BallController.currentSkinIdx));
+        UpdateSkin();
+    }
+
+    public virtual void UpdateSkin()
+    {
         m_animator.SetInteger("Index", BallController.currentSkinIdx);
     }
 }

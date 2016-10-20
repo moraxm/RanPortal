@@ -29,7 +29,7 @@ public class Persistance : MonoBehaviour
     }
     public static bool isBallActive(int idx)
     {
-        int mask = (int)Mathf.Pow(10,idx);
+        int mask = (int)Mathf.Pow(2,idx);
         return (balls & mask) != 0;
     }
 
@@ -79,7 +79,7 @@ public class Persistance : MonoBehaviour
 
     public static void UnlockBall(int idx)
     {
-        int mask = (int)Mathf.Pow(10,idx);
+        int mask = (int)Mathf.Pow(2,idx);
         int result = mask | balls;
         PlayerPrefs.SetInt(SG_BALLS_ID, result);
         PlayerPrefs.Save();
@@ -99,10 +99,13 @@ public class Persistance : MonoBehaviour
 
     public void Awake()
     {
+        PlayerPrefs.SetInt(SG_BALLS_ID, 0);
+        PlayerPrefs.Save();
         if (Persistance.balls == 0)
         {
             Persistance.UnlockBall(0);
         }
+        Persistance.SaveCoins(50000);
     }
 
     

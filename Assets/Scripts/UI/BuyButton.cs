@@ -16,4 +16,9 @@ public class BuyButton : MonoBehaviour
     {
         m_buttonComponent.interactable = m_BallStore.enoughtCoins(BallController.currentSkinIdx) || Persistance.isBallActive(BallController.currentSkinIdx);
     }
+
+    public void Buy()
+    {
+        m_BallStore.BuyBall(BallController.currentSkinIdx);
+    }
 }

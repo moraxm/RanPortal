@@ -8,7 +8,7 @@ public class ChangeSkinUIStore : ChangeSkinUI {
         ++BallController.currentSkinIdx;
         if (Persistance.isBallActive(BallController.currentSkinIdx))
         {
-            m_animator.SetInteger("Index", BallController.currentSkinIdx);
+            UpdateSkin();
             Persistance.SaveSkin(BallController.currentSkinIdx);
         }
         else
@@ -22,7 +22,7 @@ public class ChangeSkinUIStore : ChangeSkinUI {
         --BallController.currentSkinIdx;
         if (Persistance.isBallActive(BallController.currentSkinIdx))
         {
-            m_animator.SetInteger("Index", BallController.currentSkinIdx);
+            UpdateSkin();
             Persistance.SaveSkin(BallController.currentSkinIdx);
         }
         else
