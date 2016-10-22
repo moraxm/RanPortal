@@ -3,7 +3,7 @@ using System.Collections;
 
 public class Coin : Obstacle {
 
-    private SpriteRenderer m_spriteRenderer;
+    protected SpriteRenderer m_spriteRenderer;
     public override void Awake()
     {
         base.Awake();
@@ -21,7 +21,7 @@ public class Coin : Obstacle {
     }
 
     
-    private void CoinCollected()
+    protected virtual void CoinCollected()
     {
         GameManager.instance.CollectCoin();
         gameObject.layer = LayerMask.NameToLayer("IgnorePlayer");

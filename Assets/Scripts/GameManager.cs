@@ -5,6 +5,9 @@ using System;
 
 public class GameManager : MonoBehaviour, ISpeedSource
 {
+    // Constants
+    public const int c_CoinsToBonus = 3;
+
     [Header("Menus")]
     public GameObject m_gameOverMenu;
     [Header("Controllers")]
@@ -17,14 +20,25 @@ public class GameManager : MonoBehaviour, ISpeedSource
     public UnityEvent on0CountDown;
     float m_acumTime;
     int m_second;
+
+    [Header("Bonus events")]
+    public UnityEvent onBonus;
+    public UnityEvent onBonusCoinCollected;
+
     [Header("Speeds")]
     public float teletransportingSpeed = 40;
     public float normalSpeed = 10;
     public int pointsToIncrement = 100;
     public float incrementSpeed = 5;
     public float maxSpeed = 40;
+
     int m_currenWaveSpeed;
     // Values per game
+    private int m_bonusCoins = 0;
+    public int bonusCoins
+    {
+        get { return m_bonusCoins; }
+    }
     private float m_currentSpeed = 0;
     private float m_aditionalSpeed;
     private float m_points;
@@ -86,6 +100,7 @@ public class GameManager : MonoBehaviour, ISpeedSource
         MENU,
         COUNT_DOWN,
         PLAYING,
+        BONUS,
         TELETRANSPORTING,
         GAME_OVER
     }
@@ -139,6 +154,9 @@ public class GameManager : MonoBehaviour, ISpeedSource
             case GameState.PLAYING:
                 UpdatePlaying();
                 break;
+            case GameState.BONUS:
+                UpdateBonus();
+                break;
             case GameState.TELETRANSPORTING:
                 UpdateTeletransporting();
                 break;
@@ -148,6 +166,11 @@ public class GameManager : MonoBehaviour, ISpeedSource
             default:
                 break;
         }
+    }
+
+    private void UpdateBonus()
+    {
+
     }
 
     private void UpdateCountDown()
@@ -224,7 +247,18 @@ public class GameManager : MonoBehaviour, ISpeedSource
 
     private void UpdatePlaying()
     {
-        
+        if (bonusCoins >= c_CoinsToBonus)
+        {
+            m_bonusCoins = 0;
+            TransitionToBonus();
+        }
+    }
+
+    private void TransitionToBonus()
+    {
+        aditionalSpeed = 0;
+        onBonus.Invoke();
+        m_obstacleGenerator.OnBonus();
     }
 
     private void UpdateMenu()
@@ -305,6 +339,12 @@ public class GameManager : MonoBehaviour, ISpeedSource
     internal void CollectCoin()
     {
         ++m_coins;
+    }
+
+    internal void CollectBonusCoin()
+    {
+        ++m_bonusCoins;
+        onBonusCoinCollected.Invoke();
     }
 
     public void Pause()

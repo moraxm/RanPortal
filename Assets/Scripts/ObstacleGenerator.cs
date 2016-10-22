@@ -6,11 +6,12 @@ public class ObstacleGenerator : MonoBehaviour
 {
     public ISpeedSource speedSource;
     public float waveSpace = 3;
-    [Range(0,100)]
+    [Range(0, 100)]
     public int changePortalProbability;
 
     // Base objects for obstacles and portals
     public Obstacle[] obstacles;
+    public Obstacle bonusObstacle;
     Portal m_randomPortal;
 
     // Spawn positions. Lanes
@@ -22,6 +23,7 @@ public class ObstacleGenerator : MonoBehaviour
     public Transform poolPosition;
     Transform m_objectPoolGO;
     Transform m_portalPoolGO;
+    public int fixedObstacleIdx = -1;
 
     // Pools
     List<Obstacle> m_ObstaclesProbabilityList;
@@ -41,8 +43,9 @@ public class ObstacleGenerator : MonoBehaviour
     public int m_maxObjectCount;
 
     float m_acumSpace = 0;
-    
-   
+    private bool m_onBonus;
+
+
 
     // Use this for initialization
     void Start()
@@ -55,13 +58,10 @@ public class ObstacleGenerator : MonoBehaviour
         m_objectPoolGO.transform.SetParent(poolPosition.transform);
         m_objectPoolGO.transform.localPosition = Vector3.zero;
 
-        foreach (Obstacle o in obstacles)
+        if (fixedObstacleIdx > -1)
         {
-            int probabilityLenght = Mathf.CeilToInt((float) o.probability * obstacles.Length / 100);
-            for (int i = 0; i < probabilityLenght; ++i)
-            {
-                m_ObstaclesProbabilityList.Add(o);
-            }
+            Obstacle o = obstacles[fixedObstacleIdx];
+            m_ObstaclesProbabilityList.Add(o);
             GameObject currentObstacleGO = new GameObject();
             currentObstacleGO.name = o.gameObject.name;
             currentObstacleGO.transform.SetParent(m_objectPoolGO);
@@ -71,6 +71,26 @@ public class ObstacleGenerator : MonoBehaviour
             List<PoolObject> list = new List<PoolObject>();
             list.Add(pO); // At least one element for each obstacle
             m_obstaclePool.Add(o, list);
+        }
+        else
+        {
+            foreach (Obstacle o in obstacles)
+            {
+                int probabilityLenght = Mathf.CeilToInt((float)o.probability * obstacles.Length / 100);
+                for (int i = 0; i < probabilityLenght; ++i)
+                {
+                    m_ObstaclesProbabilityList.Add(o);
+                }
+                GameObject currentObstacleGO = new GameObject();
+                currentObstacleGO.name = o.gameObject.name;
+                currentObstacleGO.transform.SetParent(m_objectPoolGO);
+                currentObstacleGO.transform.localPosition = Vector3.zero;
+                GameObject obs = InstantiateGameObject(o.gameObject, currentObstacleGO.transform);
+                PoolObject pO = new PoolObject(obs.GetComponent<Obstacle>());
+                List<PoolObject> list = new List<PoolObject>();
+                list.Add(pO); // At least one element for each obstacle
+                m_obstaclePool.Add(o, list);
+            }
         }
     }
 
@@ -166,16 +186,25 @@ public class ObstacleGenerator : MonoBehaviour
 
     private Obstacle GetObstacle(int lane, int probability)
     {
-        int idx = probability * m_ObstaclesProbabilityList.Count / 100;
-        Obstacle obstacleType = m_ObstaclesProbabilityList[idx];
-        PoolObject pO = GetObstacleFromPool(obstacleType);
-        pO.inUse = true;
-        if (m_obstaclesInUse.ContainsKey(pO.obstacle)) Debug.LogError("Algo ha ido mal");
+        if (m_onBonus)
+        {
+            SetObstaclePosition(bonusObstacle, lane);
+            return bonusObstacle;
+        }
+        else
+        {
+            int idx = probability * m_ObstaclesProbabilityList.Count / 100;
+            Obstacle obstacleType = m_ObstaclesProbabilityList[idx];
+            PoolObject pO = GetObstacleFromPool(obstacleType);
+            pO.inUse = true;
+            if (m_obstaclesInUse.ContainsKey(pO.obstacle)) Debug.LogError("Algo ha ido mal");
 
-        m_obstaclesInUse.Add(pO.obstacle, pO);
-        // position
-        SetObstaclePosition(pO.obstacle, lane);
-        return pO.obstacle;
+            m_obstaclesInUse.Add(pO.obstacle, pO);
+            // position
+            SetObstaclePosition(pO.obstacle, lane);
+            return pO.obstacle;
+        }
+
     }
 
     public void OnTriggerEnter2D(Collider2D collision)
@@ -185,7 +214,10 @@ public class ObstacleGenerator : MonoBehaviour
         if (obstacle == null) return;
         obstacle.Reset();
         if (obstacle.dontDestroy) return;
-        ReUseObstacle(obstacle);
+        if (obstacle != bonusObstacle)
+            ReUseObstacle(obstacle);
+        else
+            m_onBonus = false;
     }
 
     private void ReUseObstacle(Obstacle obstacle)
@@ -218,5 +250,10 @@ public class ObstacleGenerator : MonoBehaviour
             ReUseObstacle(o);
             SetObstaclePosition(o, 0);
         }
+    }
+
+    public void OnBonus()
+    {
+        m_onBonus = true;
     }
 }
