@@ -26,6 +26,7 @@ public class GameManager : MonoBehaviour, ISpeedSource
     int m_currenWaveSpeed;
     // Values per game
     private float m_currentSpeed = 0;
+    private float m_aditionalSpeed;
     private float m_points;
     public int points
     {
@@ -50,6 +51,20 @@ public class GameManager : MonoBehaviour, ISpeedSource
         {
             return m_instance;
         }
+    }
+
+    public float aditionalSpeed
+    {
+        get { return m_aditionalSpeed; }
+        set
+        {
+            m_aditionalSpeed = value;
+        }
+    }
+
+    public float speed
+    {
+        get { return m_currentSpeed + m_aditionalSpeed; }
     }
 
     public void Awake()
@@ -152,6 +167,7 @@ public class GameManager : MonoBehaviour, ISpeedSource
                     break;
                 case 0:
                     on0CountDown.Invoke();
+                    m_currentSpeed = normalSpeed;
                     TransitionToPlaying();
                     break;
                 default:
@@ -165,7 +181,7 @@ public class GameManager : MonoBehaviour, ISpeedSource
         if (speed >= maxSpeed) return;
         if (m_currenWaveSpeed * pointsToIncrement < m_points)
         {
-            speed = speed + incrementSpeed;
+            m_currentSpeed = m_currentSpeed + incrementSpeed;
             ++m_currenWaveSpeed;
         }
         
@@ -200,7 +216,7 @@ public class GameManager : MonoBehaviour, ISpeedSource
             {
                 // Transition to Playing
                 m_player.laneObject.lane = m_otherPortal.GetComponent<LaneObject>().lane;
-                speed = speed - teletransportingSpeed;
+                aditionalSpeed = 0;
                 TransitionToPlaying();
             }
         }
@@ -219,7 +235,8 @@ public class GameManager : MonoBehaviour, ISpeedSource
     internal void GameOver()
     {
         state = GameState.GAME_OVER;
-        speed = 0;
+        m_currentSpeed = 0;
+        aditionalSpeed = 0;
         m_player.Kill();
         AdsManager.instance.ShowAdVideo();
         Persistance.SavePoints(points);
@@ -230,7 +247,7 @@ public class GameManager : MonoBehaviour, ISpeedSource
     internal void PlayerInPortal(Portal portal)
     {
         state = GameState.TELETRANSPORTING;
-        speed = speed + teletransportingSpeed;
+        aditionalSpeed = teletransportingSpeed;
         m_activePortal = portal;
         m_otherPortal = portal.nextPortal; // This could be null. If so, in the update we will find other portal.
         m_player.blocked = true;
@@ -244,7 +261,7 @@ public class GameManager : MonoBehaviour, ISpeedSource
         state = GameState.PLAYING;
         m_otherPortal = null;
         m_activePortal = null;
-        speed = normalSpeed;
+        aditionalSpeed = 0;
     }
 
     private void TransitionToCountDown()
@@ -252,7 +269,8 @@ public class GameManager : MonoBehaviour, ISpeedSource
         on3CountDown.Invoke();
         m_acumTime = 0;
         m_second = 3;
-        speed = 0;
+        aditionalSpeed = 0;
+        m_currentSpeed = 0;
         m_coins = 0;
         state = GameState.COUNT_DOWN;
         m_player.blocked = true;
@@ -277,15 +295,6 @@ public class GameManager : MonoBehaviour, ISpeedSource
     }
 
     public Portal m_otherPortal { get; set; }
-
-    public float speed
-    {
-        get { return m_currentSpeed; }
-        set
-        {
-            m_currentSpeed = value;
-        }
-    }
 
     internal void FinishedAd()
     {
