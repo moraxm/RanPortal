@@ -44,6 +44,7 @@ public class ObstacleGenerator : MonoBehaviour
 
     float m_acumSpace = 0;
     private bool m_onBonus;
+    private int m_skippedPortals;
 
 
 
@@ -125,12 +126,14 @@ public class ObstacleGenerator : MonoBehaviour
         if (toReturn == null) return m_randomPortal; // The obstacle is not a Portal
 
         int changePortal = Random.Range(0, 100);
-        if (changePortal < changePortalProbability)
+        if (changePortal < changePortalProbability || m_skippedPortals >= GameManager.instance.activePortal.maxNextPortalToTeletransport)
         {
+            m_skippedPortals = 0;
             return toReturn;
         }
         else
         {
+            ++m_skippedPortals;
             return m_randomPortal;
         }
     }

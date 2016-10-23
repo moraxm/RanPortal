@@ -5,6 +5,12 @@ public class Portal : Obstacle
 {
     [SerializeField]
     private Portal m_nextPortal;
+    [SerializeField]
+    private int m_maxNextPOrtalToTeletransport = 3;
+    public int maxNextPortalToTeletransport
+    {
+        get { return m_maxNextPOrtalToTeletransport; }
+    }
     public Portal nextPortal
     {
         get { return m_nextPortal; }
