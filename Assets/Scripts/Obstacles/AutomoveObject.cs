@@ -26,7 +26,7 @@ public class AutomoveObject : MonoBehaviour
     public virtual void Awake()
     {
         m_laneObject = GetComponent<LaneObject>();
-        dontDestroy = false;
+        // dontDestroy = false;
     }
 
     // Update is called once per frame

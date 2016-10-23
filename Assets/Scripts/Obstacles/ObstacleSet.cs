@@ -18,6 +18,7 @@ public class ObstacleSet : Obstacle
 
     public override Portal GetPortal()
     {
+		if (m_portals == null || m_portals.Length == 0) return null;
         int idx = Random.Range(0, m_portals.Length);
         return m_portals[idx];
     }

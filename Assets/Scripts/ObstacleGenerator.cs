@@ -248,7 +248,8 @@ public class ObstacleGenerator : MonoBehaviour
         foreach (Obstacle o in obstacles)
         {
             ReUseObstacle(o);
-            SetObstaclePosition(o, 0);
+			if (!o.dontDestroy)
+        		SetObstaclePosition(o, 0);
         }
     }
 
