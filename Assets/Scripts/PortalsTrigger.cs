@@ -5,7 +5,7 @@ public class PortalsTrigger : MonoBehaviour
 {
     public ObstacleGenerator m_obstacleGenerator;
 
-    public void OnTriggerEnter2D(Collider2D collision)
+    public virtual void OnTriggerEnter2D(Collider2D collision)
     {
         Portal p = collision.GetComponent<Portal>();
         if (!p) return;

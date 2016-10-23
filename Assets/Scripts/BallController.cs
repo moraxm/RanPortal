@@ -60,10 +60,11 @@ public class BallController : MonoBehaviour {
         set 
         { 
             m_spriteRenderer.enabled = !value;
-            if (value)
-                m_collider.enabled = false;
-            else
-                StartCoroutine(EnabledTimed(m_collider, true, invulnerableTime));
+            m_collider.enabled = !value;
+            //if (value)
+            //    m_collider.enabled = false;
+            //else
+            //    StartCoroutine(EnabledTimed(m_collider, true, invulnerableTime));
         }
     }
 

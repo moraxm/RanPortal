@@ -13,6 +13,7 @@ public class ObstacleGenerator : MonoBehaviour
     public Obstacle[] obstacles;
     public Obstacle bonusObstacle;
     Portal m_randomPortal;
+    bool m_getNextPortal;
 
     // Spawn positions. Lanes
     public Transform spawmPositionLeft;
@@ -250,11 +251,18 @@ public class ObstacleGenerator : MonoBehaviour
         if (changePortal < changePortalProbability || m_skippedPortals >= GameManager.instance.activePortal.maxNextPortalToTeletransport)
         {
             m_skippedPortals = 0;
-            m_randomPortal = portal;
+            m_getNextPortal = true;
         }
         else
         {
             ++m_skippedPortals;
         }
+    }
+
+    internal void OnTriggerPortalCreated(Portal p)
+    {
+        if (m_getNextPortal)
+            m_randomPortal = p;
+        
     }
 }
