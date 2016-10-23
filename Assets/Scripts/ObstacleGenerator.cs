@@ -188,6 +188,7 @@ public class ObstacleGenerator : MonoBehaviour
     {
         if (m_onBonus)
         {
+            m_onBonus = false;
             SetObstaclePosition(bonusObstacle, lane);
             return bonusObstacle;
         }
