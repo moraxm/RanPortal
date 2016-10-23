@@ -35,8 +35,9 @@ public class BallController : MonoBehaviour {
             m_currentSkin = (BALL_SKINS)value;
         }
     }
-
-    public ParticleSystem m_particleSystem;
+    [Header("Particles")]
+    public PlayParticlesCascade m_particleSystemPortals;
+    public ParticleSystem m_particleSystemDeath;
     public float invulnerableTime = 0.5f;
     LaneObject m_laneObject;
     public LaneObject laneObject
@@ -61,6 +62,8 @@ public class BallController : MonoBehaviour {
         { 
             m_spriteRenderer.enabled = !value;
             m_collider.enabled = !value;
+            if (GameManager.instance.state == GameManager.GameState.TELETRANSPORTING)
+                m_particleSystemPortals.Play();
             //if (value)
             //    m_collider.enabled = false;
             //else
@@ -162,13 +165,13 @@ public class BallController : MonoBehaviour {
     {
         m_sounds.PlayDeath(true);
         m_spriteRenderer.enabled = false;
-        m_particleSystem.Play();
+        m_particleSystemDeath.Play();
     }
 
     public void Reset()
     {
         m_spriteRenderer.enabled = true;
-        m_particleSystem.Stop();
+        m_particleSystemDeath.Stop();
         m_animator.SetInteger("Index", Persistance.skin);
     }
 }

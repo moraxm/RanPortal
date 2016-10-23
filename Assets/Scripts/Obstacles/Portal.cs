@@ -4,6 +4,8 @@ using System.Collections;
 public class Portal : Obstacle 
 {
     [SerializeField]
+    PlayParticlesCascade m_particles;
+    [SerializeField]
     private Portal m_nextPortal;
     [SerializeField]
     private int m_maxNextPOrtalToTeletransport = 3;
@@ -19,6 +21,7 @@ public class Portal : Obstacle
     protected override void OnPlayerEnterFront(Collider2D collision)
     {
         GameManager.instance.PlayerInPortal(this);
+        //m_particles.Play();
     }
 
     public override Portal GetPortal()
