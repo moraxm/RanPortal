@@ -38,6 +38,7 @@ public class BallController : MonoBehaviour {
     [Header("Particles")]
     public PlayParticlesCascade m_particleSystemPortals;
     public ParticleSystem m_particleSystemDeath;
+    public MoveParticles m_particlesMove;
     public float invulnerableTime = 0.5f;
     LaneObject m_laneObject;
     public LaneObject laneObject
@@ -124,10 +125,12 @@ public class BallController : MonoBehaviour {
         switch (m_laneObject.lane)
         {
             case LaneObject.LanePosition.CENTER:
+                m_particlesMove.Play(LaneObject.LanePosition.CENTER, LaneObject.LanePosition.LEFT);
                 m_laneObject.lane = LaneObject.LanePosition.LEFT;
                 moving = true;
                 break;
             case LaneObject.LanePosition.RIGHT:
+                m_particlesMove.Play(LaneObject.LanePosition.RIGHT, LaneObject.LanePosition.CENTER);
                 m_laneObject.lane = LaneObject.LanePosition.CENTER;
                 moving = true;
                 break;
@@ -143,10 +146,12 @@ public class BallController : MonoBehaviour {
         switch (m_laneObject.lane)
         {
             case LaneObject.LanePosition.CENTER:
+                m_particlesMove.Play(LaneObject.LanePosition.CENTER, LaneObject.LanePosition.RIGHT);
                 m_laneObject.lane = LaneObject.LanePosition.RIGHT;
                 moving = true;
                 break;
             case LaneObject.LanePosition.LEFT:
+                m_particlesMove.Play(LaneObject.LanePosition.LEFT, LaneObject.LanePosition.CENTER);
                 m_laneObject.lane = LaneObject.LanePosition.CENTER;
                 moving = true;
                 break;
