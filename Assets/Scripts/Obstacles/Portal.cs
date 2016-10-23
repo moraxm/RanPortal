@@ -25,5 +25,14 @@ public class Portal : Obstacle
     {
         return this;
     }
-
+    public override void Awake()
+    {
+        base.Awake();
+        gameObject.layer = LayerMask.NameToLayer("Portal");
+    }
+    internal override void Reset()
+    {
+        base.Reset();
+        gameObject.layer = LayerMask.NameToLayer("Portal");
+    }
 }

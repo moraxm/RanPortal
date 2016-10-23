@@ -114,27 +114,8 @@ public class ObstacleGenerator : MonoBehaviour
             int probability = Random.Range(0, 100);
             Obstacle obs;
             obs = GetObstacle(lane, probability);
-            m_randomPortal = ChangeRandomPortal(obs);
             obs.speedSource = GameManager.instance;
             waveSpace = obs.size;
-        }
-    }
-
-    private Portal ChangeRandomPortal(Obstacle portalToChange)
-    {
-        Portal toReturn = portalToChange.GetPortal();
-        if (toReturn == null) return m_randomPortal; // The obstacle is not a Portal
-
-        int changePortal = Random.Range(0, 100);
-        if (changePortal < changePortalProbability || m_skippedPortals >= GameManager.instance.activePortal.maxNextPortalToTeletransport)
-        {
-            m_skippedPortals = 0;
-            return toReturn;
-        }
-        else
-        {
-            ++m_skippedPortals;
-            return m_randomPortal;
         }
     }
 
@@ -260,5 +241,20 @@ public class ObstacleGenerator : MonoBehaviour
     public void OnBonus()
     {
         m_onBonus = true;
+    }
+
+    public void OnTriggerPortal(Portal portal)
+    {
+        if (GameManager.instance.state != GameManager.GameState.TELETRANSPORTING) return;
+        int changePortal = Random.Range(0, 100);
+        if (changePortal < changePortalProbability || m_skippedPortals >= GameManager.instance.activePortal.maxNextPortalToTeletransport)
+        {
+            m_skippedPortals = 0;
+            m_randomPortal = portal;
+        }
+        else
+        {
+            ++m_skippedPortals;
+        }
     }
 }

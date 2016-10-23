@@ -14,6 +14,10 @@ public class ObstacleSet : Obstacle
         }
         dontDestroy = false;
         m_portals = GetComponentsInChildren<Portal>();
+        foreach (Portal p in m_portals)
+        {
+            p.GetComponent<LaneObject>().AutoDetectLane();
+        }
     }
 
     public override Portal GetPortal()
