@@ -324,6 +324,7 @@ public class GameManager : MonoBehaviour, ISpeedSource
         if (state == GameState.GAME_OVER)
         {
             m_obstacleGenerator.Restart();
+            
             m_gameOverMenu.SetActive(false);
             m_player.Reset();
             m_player.laneObject.lane = LaneObject.LanePosition.CENTER;
