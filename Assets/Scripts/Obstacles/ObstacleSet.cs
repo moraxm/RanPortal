@@ -14,10 +14,15 @@ public class ObstacleSet : Obstacle
         }
         dontDestroy = false;
         m_portals = GetComponentsInChildren<Portal>();
+        foreach (Portal p in m_portals)
+        {
+            p.GetComponent<LaneObject>().AutoDetectLane();
+        }
     }
 
     public override Portal GetPortal()
     {
+		if (m_portals == null || m_portals.Length == 0) return null;
         int idx = Random.Range(0, m_portals.Length);
         return m_portals[idx];
     }

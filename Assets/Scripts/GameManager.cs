@@ -107,6 +107,10 @@ public class GameManager : MonoBehaviour, ISpeedSource
 
     private GameState m_state;
     private Portal m_activePortal;
+    public Portal activePortal
+    {
+        get { return m_activePortal; }
+    }
     public GameState state
     {
         get
@@ -329,6 +333,7 @@ public class GameManager : MonoBehaviour, ISpeedSource
     }
 
     public Portal m_otherPortal { get; set; }
+    private int m_portalsSkiped;
 
     internal void FinishedAd()
     {

@@ -11,11 +11,14 @@ public class LaneObject : MonoBehaviour
     }
 
 	// Use this for initialization
-	protected virtual void Start () {
+	protected virtual void Start () 
+    {
+        if (!m_autoDetected)
         m_lane = LanePosition.CENTER;
 	}
 
     protected LanePosition m_lane;
+    private bool m_autoDetected = false;
     public virtual LanePosition lane
     {
         set
@@ -42,5 +45,23 @@ public class LaneObject : MonoBehaviour
         {
             return m_lane;
         }
+    }
+
+    internal void AutoDetectLane()
+    {
+        float xOffset = transform.position.x;
+        if (xOffset > 1.5f)
+        {
+            m_lane = LaneObject.LanePosition.RIGHT;
+        }
+        else if (xOffset < -1.5f)
+        {
+            m_lane = LaneObject.LanePosition.LEFT;
+        }
+        else
+        {
+            m_lane = LaneObject.LanePosition.CENTER;
+        }
+        m_autoDetected = true;
     }
 }

@@ -13,6 +13,7 @@ public class ObstacleGenerator : MonoBehaviour
     public Obstacle[] obstacles;
     public Obstacle bonusObstacle;
     Portal m_randomPortal;
+    bool m_getNextPortal;
 
     // Spawn positions. Lanes
     public Transform spawmPositionLeft;
@@ -44,6 +45,7 @@ public class ObstacleGenerator : MonoBehaviour
 
     float m_acumSpace = 0;
     private bool m_onBonus;
+    private int m_skippedPortals;
 
 
 
@@ -113,25 +115,8 @@ public class ObstacleGenerator : MonoBehaviour
             int probability = Random.Range(0, 100);
             Obstacle obs;
             obs = GetObstacle(lane, probability);
-            m_randomPortal = ChangeRandomPortal(obs);
             obs.speedSource = GameManager.instance;
             waveSpace = obs.size;
-        }
-    }
-
-    private Portal ChangeRandomPortal(Obstacle portalToChange)
-    {
-        Portal toReturn = portalToChange.GetPortal();
-        if (toReturn == null) return m_randomPortal; // The obstacle is not a Portal
-
-        int changePortal = Random.Range(0, 100);
-        if (changePortal < changePortalProbability)
-        {
-            return toReturn;
-        }
-        else
-        {
-            return m_randomPortal;
         }
     }
 
@@ -188,6 +173,7 @@ public class ObstacleGenerator : MonoBehaviour
     {
         if (m_onBonus)
         {
+            m_onBonus = false;
             SetObstaclePosition(bonusObstacle, lane);
             return bonusObstacle;
         }
@@ -248,12 +234,35 @@ public class ObstacleGenerator : MonoBehaviour
         foreach (Obstacle o in obstacles)
         {
             ReUseObstacle(o);
-            SetObstaclePosition(o, 0);
+			if (!o.dontDestroy)
+        		SetObstaclePosition(o, 0);
         }
     }
 
     public void OnBonus()
     {
         m_onBonus = true;
+    }
+
+    public void OnTriggerPortal(Portal portal)
+    {
+        if (GameManager.instance.state != GameManager.GameState.TELETRANSPORTING) return;
+        int changePortal = Random.Range(0, 100);
+        if (changePortal < changePortalProbability || m_skippedPortals >= GameManager.instance.activePortal.maxNextPortalToTeletransport)
+        {
+            m_skippedPortals = 0;
+            m_getNextPortal = true;
+        }
+        else
+        {
+            ++m_skippedPortals;
+        }
+    }
+
+    internal void OnTriggerPortalCreated(Portal p)
+    {
+        if (m_getNextPortal)
+            m_randomPortal = p;
+        
     }
 }

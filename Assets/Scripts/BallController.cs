@@ -35,8 +35,10 @@ public class BallController : MonoBehaviour {
             m_currentSkin = (BALL_SKINS)value;
         }
     }
-
-    public ParticleSystem m_particleSystem;
+    [Header("Particles")]
+    public PlayParticlesCascade m_particleSystemPortals;
+    public ParticleSystem m_particleSystemDeath;
+    public MoveParticles m_particlesMove;
     public float invulnerableTime = 0.5f;
     LaneObject m_laneObject;
     public LaneObject laneObject
@@ -60,10 +62,13 @@ public class BallController : MonoBehaviour {
         set 
         { 
             m_spriteRenderer.enabled = !value;
-            if (value)
-                m_collider.enabled = false;
-            else
-                StartCoroutine(EnabledTimed(m_collider, true, invulnerableTime));
+            m_collider.enabled = !value;
+            if (GameManager.instance.state == GameManager.GameState.TELETRANSPORTING)
+                m_particleSystemPortals.Play();
+            //if (value)
+            //    m_collider.enabled = false;
+            //else
+            //    StartCoroutine(EnabledTimed(m_collider, true, invulnerableTime));
         }
     }
 
@@ -120,10 +125,12 @@ public class BallController : MonoBehaviour {
         switch (m_laneObject.lane)
         {
             case LaneObject.LanePosition.CENTER:
+                m_particlesMove.Play(LaneObject.LanePosition.CENTER, LaneObject.LanePosition.LEFT);
                 m_laneObject.lane = LaneObject.LanePosition.LEFT;
                 moving = true;
                 break;
             case LaneObject.LanePosition.RIGHT:
+                m_particlesMove.Play(LaneObject.LanePosition.RIGHT, LaneObject.LanePosition.CENTER);
                 m_laneObject.lane = LaneObject.LanePosition.CENTER;
                 moving = true;
                 break;
@@ -139,10 +146,12 @@ public class BallController : MonoBehaviour {
         switch (m_laneObject.lane)
         {
             case LaneObject.LanePosition.CENTER:
+                m_particlesMove.Play(LaneObject.LanePosition.CENTER, LaneObject.LanePosition.RIGHT);
                 m_laneObject.lane = LaneObject.LanePosition.RIGHT;
                 moving = true;
                 break;
             case LaneObject.LanePosition.LEFT:
+                m_particlesMove.Play(LaneObject.LanePosition.LEFT, LaneObject.LanePosition.CENTER);
                 m_laneObject.lane = LaneObject.LanePosition.CENTER;
                 moving = true;
                 break;
@@ -161,13 +170,13 @@ public class BallController : MonoBehaviour {
     {
         m_sounds.PlayDeath(true);
         m_spriteRenderer.enabled = false;
-        m_particleSystem.Play();
+        m_particleSystemDeath.Play();
     }
 
     public void Reset()
     {
         m_spriteRenderer.enabled = true;
-        m_particleSystem.Stop();
+        m_particleSystemDeath.Stop();
         m_animator.SetInteger("Index", Persistance.skin);
     }
 }
