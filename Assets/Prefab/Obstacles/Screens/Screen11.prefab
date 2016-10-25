@@ -44,7 +44,7 @@ GameObject:
   - 114: {fileID: 114000012090130868}
   - 50: {fileID: 50000010774430890}
   - 114: {fileID: 114000010459542570}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: PortalPNG (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -98,7 +98,7 @@ GameObject:
   - 114: {fileID: 114000014107224848}
   - 50: {fileID: 50000013074022028}
   - 114: {fileID: 114000011107886922}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: PortalPNG (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -118,7 +118,7 @@ GameObject:
   - 114: {fileID: 114000011286449464}
   - 50: {fileID: 50000013071979136}
   - 114: {fileID: 114000011357207038}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: PortalPNG (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -138,7 +138,7 @@ GameObject:
   - 114: {fileID: 114000012206936536}
   - 50: {fileID: 50000014247055532}
   - 114: {fileID: 114000011909476084}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: PortalPNG (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -178,7 +178,7 @@ GameObject:
   - 114: {fileID: 114000013027477908}
   - 50: {fileID: 50000011420884124}
   - 114: {fileID: 114000013697346438}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: PortalPNG (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -263,7 +263,7 @@ GameObject:
   - 114: {fileID: 114000010194908922}
   - 50: {fileID: 50000013913348390}
   - 114: {fileID: 114000011034775722}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: PortalPNG (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -283,7 +283,7 @@ GameObject:
   - 114: {fileID: 114000013960822152}
   - 50: {fileID: 50000012688753948}
   - 114: {fileID: 114000012307267628}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: PortalPNG (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -296,8 +296,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000010899790058}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.97, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children:
@@ -406,7 +406,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000013807603338}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.3357722, y: 5.7739835, z: 0}
+  m_LocalPosition: {x: 2.4, y: 5.7739835, z: 0}
   m_LocalScale: {x: 0.87343484, y: 0.87343484, z: 0.87343484}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children:
@@ -435,7 +435,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000013776245670}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.378862, y: 0.69, z: 0}
+  m_LocalPosition: {x: 2.44, y: 0.69, z: 0}
   m_LocalScale: {x: 0.87343484, y: 0.87343484, z: 0.87343484}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children:
@@ -451,7 +451,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000010844979120}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.3357722, y: -1.723577, z: 0}
+  m_LocalPosition: {x: 2.4, y: -1.723577, z: 0}
   m_LocalScale: {x: 0.8734348, y: 0.8734348, z: 0.8734348}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children:
@@ -467,7 +467,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000010214724102}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1.0556911, y: 3.34, z: 0}
+  m_LocalPosition: {x: 0.01, y: 3.34, z: 0}
   m_LocalScale: {x: 0.8734348, y: 0.8734348, z: 0.8734348}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
@@ -856,7 +856,7 @@ MonoBehaviour:
   probability: 0
   m_particles: {fileID: 0}
   m_nextPortal: {fileID: 0}
-  m_maxNextPOrtalToTeletransport: 3
+  m_maxNextPOrtalToTeletransport: 5
 --- !u!114 &114000010459542570
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -945,7 +945,7 @@ MonoBehaviour:
   probability: 0
   m_particles: {fileID: 0}
   m_nextPortal: {fileID: 0}
-  m_maxNextPOrtalToTeletransport: 3
+  m_maxNextPOrtalToTeletransport: 5
 --- !u!114 &114000011357207038
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1010,7 +1010,7 @@ MonoBehaviour:
   probability: 0
   m_particles: {fileID: 0}
   m_nextPortal: {fileID: 0}
-  m_maxNextPOrtalToTeletransport: 3
+  m_maxNextPOrtalToTeletransport: 5
 --- !u!114 &114000012206936536
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1027,7 +1027,7 @@ MonoBehaviour:
   probability: 0
   m_particles: {fileID: 0}
   m_nextPortal: {fileID: 0}
-  m_maxNextPOrtalToTeletransport: 3
+  m_maxNextPOrtalToTeletransport: 5
 --- !u!114 &114000012307267628
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1069,7 +1069,7 @@ MonoBehaviour:
   probability: 0
   m_particles: {fileID: 0}
   m_nextPortal: {fileID: 0}
-  m_maxNextPOrtalToTeletransport: 3
+  m_maxNextPOrtalToTeletransport: 5
 --- !u!114 &114000013312818784
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1119,7 +1119,7 @@ MonoBehaviour:
   probability: 0
   m_particles: {fileID: 0}
   m_nextPortal: {fileID: 0}
-  m_maxNextPOrtalToTeletransport: 3
+  m_maxNextPOrtalToTeletransport: 5
 --- !u!114 &114000014107224848
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1136,7 +1136,7 @@ MonoBehaviour:
   probability: 0
   m_particles: {fileID: 0}
   m_nextPortal: {fileID: 0}
-  m_maxNextPOrtalToTeletransport: 3
+  m_maxNextPOrtalToTeletransport: 5
 --- !u!212 &212000010827902072
 SpriteRenderer:
   m_ObjectHideFlags: 1
