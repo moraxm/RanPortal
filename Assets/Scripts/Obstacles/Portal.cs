@@ -21,7 +21,7 @@ public class Portal : Obstacle
     protected override void OnPlayerEnterFront(Collider2D collision)
     {
         GameManager.instance.PlayerInPortal(this);
-        //m_particles.Play();
+        m_particles.Play();
     }
 
     public override Portal GetPortal()
@@ -32,6 +32,8 @@ public class Portal : Obstacle
     {
         base.Awake();
         gameObject.layer = LayerMask.NameToLayer("Portal");
+        if (!m_particles)
+            m_particles = GetComponentInChildren<PlayParticlesCascade>();
     }
     internal override void Reset()
     {

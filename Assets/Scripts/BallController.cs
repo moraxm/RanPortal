@@ -63,8 +63,8 @@ public class BallController : MonoBehaviour {
         { 
             m_spriteRenderer.enabled = !value;
             m_collider.enabled = !value;
-            if (GameManager.instance.state == GameManager.GameState.TELETRANSPORTING)
-                m_particleSystemPortals.Play();
+            //if (GameManager.instance.state == GameManager.GameState.TELETRANSPORTING)
+            //    m_particleSystemPortals.Play();
             //if (value)
             //    m_collider.enabled = false;
             //else
