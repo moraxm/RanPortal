@@ -87,6 +87,10 @@ public class BallController : MonoBehaviour {
     }
     private int m_movingFlagFrames;
     private PlayerSounds m_sounds;
+    public PlayerSounds sounds
+    {
+        get { return m_sounds; }
+    }
     private Animator m_animator;
 
 	// Use this for initialization
