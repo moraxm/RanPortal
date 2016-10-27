@@ -6,6 +6,8 @@ public class PlayerSounds : MonoBehaviour
     public AudioClip m_deathSound;
     public AudioClip m_teletrasportingSound;
     public AudioClip m_bonusSound;
+    public AudioClip m_coinCollected;
+    public AudioClip m_bonusCoinColllected;
     public AudioClip[] m_changeLaneSounds;
     private AudioSource m_audioSource;
 
@@ -53,5 +55,19 @@ public class PlayerSounds : MonoBehaviour
             m_audioSource.PlayOneShot(m_changeLaneSounds[Random.Range(0,m_changeLaneSounds.Length)]);
         }
         
+    }
+
+    public void PlayCoin(bool play)
+    {
+        m_audioSource.loop = false;
+        m_audioSource.clip = m_coinCollected;
+        PlayAudioSource(play);
+    }
+
+    public void PlayBonusCoin(bool play)
+    {
+        m_audioSource.loop = false;
+        m_audioSource.clip = m_bonusCoinColllected;
+        PlayAudioSource(play);
     }
 }

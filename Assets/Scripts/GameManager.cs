@@ -260,6 +260,7 @@ public class GameManager : MonoBehaviour, ISpeedSource
 
     private void TransitionToBonus()
     {
+        m_player.sounds.PlayBonus(true);
         aditionalSpeed = 0;
         onBonus.Invoke();
         m_obstacleGenerator.OnBonus();
@@ -345,12 +346,14 @@ public class GameManager : MonoBehaviour, ISpeedSource
 
     internal void CollectCoin()
     {
+        m_player.sounds.PlayCoin(true);
         ++m_coins;
     }
 
     internal void CollectBonusCoin()
     {
         ++m_bonusCoins;
+        m_player.sounds.PlayBonusCoin(true);
         onBonusCoinCollected.Invoke();
     }
 
