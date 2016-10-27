@@ -2127,58 +2127,7 @@ Prefab:
       objectReference: {fileID: 609276324}
     - target: {fileID: 1000010636655746, guid: 59944fcb8b44655469bf5bf7bbf12307, type: 2}
       propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 224000014138897000, guid: 59944fcb8b44655469bf5bf7bbf12307,
-        type: 2}
-      propertyPath: m_AnchoredPosition.y
-      value: -243.82
-      objectReference: {fileID: 0}
-    - target: {fileID: 224000014086490392, guid: 59944fcb8b44655469bf5bf7bbf12307,
-        type: 2}
-      propertyPath: m_AnchoredPosition.y
-      value: -170
-      objectReference: {fileID: 0}
-    - target: {fileID: 114000013870923014, guid: 59944fcb8b44655469bf5bf7bbf12307,
-        type: 2}
-      propertyPath: m_FontData.m_Font
-      value: 
-      objectReference: {fileID: 12800000, guid: c89147466a94f4259a42b560501acad0,
-        type: 3}
-    - target: {fileID: 114000013870923014, guid: 59944fcb8b44655469bf5bf7bbf12307,
-        type: 2}
-      propertyPath: m_FontData.m_FontSize
-      value: 25
-      objectReference: {fileID: 0}
-    - target: {fileID: 114000013870923014, guid: 59944fcb8b44655469bf5bf7bbf12307,
-        type: 2}
-      propertyPath: m_Color.r
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 114000013870923014, guid: 59944fcb8b44655469bf5bf7bbf12307,
-        type: 2}
-      propertyPath: m_Color.g
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 114000013870923014, guid: 59944fcb8b44655469bf5bf7bbf12307,
-        type: 2}
-      propertyPath: m_Color.b
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 224000014086490392, guid: 59944fcb8b44655469bf5bf7bbf12307,
-        type: 2}
-      propertyPath: m_AnchoredPosition.x
-      value: -4.3
-      objectReference: {fileID: 0}
-    - target: {fileID: 224000014086490392, guid: 59944fcb8b44655469bf5bf7bbf12307,
-        type: 2}
-      propertyPath: m_SizeDelta.x
-      value: 251.05
-      objectReference: {fileID: 0}
-    - target: {fileID: 224000014086490392, guid: 59944fcb8b44655469bf5bf7bbf12307,
-        type: 2}
-      propertyPath: m_SizeDelta.y
-      value: 63
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 59944fcb8b44655469bf5bf7bbf12307, type: 2}
