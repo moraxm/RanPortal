@@ -294,6 +294,7 @@ public class GameManager : MonoBehaviour, ISpeedSource
         m_otherPortal = portal.nextPortal; // This could be null. If so, in the update we will find other portal.
         m_player.blocked = true;
         m_player.hide = true;
+        m_player.sounds.PlayTeletrasporting(true);
     }
 
     private void TransitionToPlaying()
