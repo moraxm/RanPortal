@@ -20,6 +20,9 @@ public class GameManager : MonoBehaviour, ISpeedSource
     public UnityEvent on0CountDown;
     float m_acumTime;
     int m_second;
+    [Header("Pause events")]
+    public UnityEvent onPause;
+    public UnityEvent onResume;
 
     [Header("Bonus events")]
     public UnityEvent onBonus;
@@ -291,7 +294,6 @@ public class GameManager : MonoBehaviour, ISpeedSource
         m_otherPortal = portal.nextPortal; // This could be null. If so, in the update we will find other portal.
         m_player.blocked = true;
         m_player.hide = true;
-        m_player.sounds.PlayTeletrasporting(true);
     }
 
     private void TransitionToPlaying()
@@ -360,8 +362,14 @@ public class GameManager : MonoBehaviour, ISpeedSource
     public void Pause()
     {
         if (Time.timeScale == 0)
+        {
+            onResume.Invoke();
             Time.timeScale = 1;
+        }
         else
+        {
+            onPause.Invoke();
             Time.timeScale = 0;
+        }
     }
 }
