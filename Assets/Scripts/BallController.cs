@@ -33,6 +33,7 @@ public class BallController : MonoBehaviour {
                 value = length - 1;
 
             m_currentSkin = (BALL_SKINS)value;
+            Persistance.SaveSkin(value);
         }
     }
     [Header("Particles")]
@@ -102,6 +103,7 @@ public class BallController : MonoBehaviour {
         m_sounds = GetComponent<PlayerSounds>();
         m_animator = GetComponent<Animator>();
         m_movingFlagFrames = 0;
+        Reset();
 	}
 	
 	// Update is called once per frame

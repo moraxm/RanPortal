@@ -9,12 +9,19 @@ public class ChangeSkinUI : MonoBehaviour {
     protected Image m_imageComponent;
     protected Animator m_animator;
 	// Use this for initialization
-	void Start () 
+	void Awake () 
     {
         m_imageComponent = GetComponent<Image>();
         m_animator = GetComponent<Animator>();
         m_animator.speed = animationSpeed;
 	}
+
+    public void OnEnable()
+    {
+        UpdateSkin();
+    }
+
+
 
     public virtual void NextSkin()
     {

@@ -26,6 +26,7 @@ public class BallStore : MonoBehaviour {
         currentCoins -= getPrize(idx);
         Persistance.UnlockBall(idx);
         Persistance.SaveCoins(currentCoins);
+        Persistance.SaveSkin(idx);
     }
 
 }

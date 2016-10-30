@@ -99,13 +99,14 @@ public class Persistance : MonoBehaviour
 
     public void Awake()
     {
-        PlayerPrefs.SetInt(SG_BALLS_ID, 0);
-        PlayerPrefs.Save();
-        if (Persistance.balls == 0)
-        {
-            Persistance.UnlockBall(0);
-        }
-        Persistance.SaveCoins(50000);
+        // HACK para probar tienda
+        //PlayerPrefs.SetInt(SG_BALLS_ID, 0);
+        //PlayerPrefs.Save();
+        //if (Persistance.balls == 0)
+        //{
+        //    Persistance.UnlockBall(0);
+        //}
+        //Persistance.SaveCoins(50000);
     }
 
     
