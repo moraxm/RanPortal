@@ -42,7 +42,7 @@ public class PlayerSounds : MonoBehaviour
 
     public void PlayBonus(bool play)
     {
-        m_audioSource.loop = true;
+        m_audioSource.loop = false;
         m_audioSource.clip = m_bonusSound;
         PlayAudioSource(play);
     }

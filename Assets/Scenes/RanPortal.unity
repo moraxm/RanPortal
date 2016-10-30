@@ -129,6 +129,11 @@ Prefab:
       propertyPath: m_RootOrder
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 114000012883016358, guid: 03df7bda29cb0234789b2f1c8edc6c27,
+        type: 2}
+      propertyPath: m_bonusSound
+      value: 
+      objectReference: {fileID: 8300000, guid: 2667a0a008b044e218b63df62e2be749, type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 03df7bda29cb0234789b2f1c8edc6c27, type: 2}
   m_IsPrefabParent: 0
@@ -1244,7 +1249,7 @@ MonoBehaviour:
   waveSpace: 5
   changePortalProbability: 50
   obstacles:
-  - {fileID: 833448614}
+  - {fileID: 1806270048}
   - {fileID: 91857792}
   - {fileID: 1356177635}
   - {fileID: 1095882550}
@@ -1269,7 +1274,7 @@ MonoBehaviour:
   spawmPositionCenter: {fileID: 1628097837}
   spawmPositionRight: {fileID: 1173371277}
   poolPosition: {fileID: 343410481}
-  fixedObstacleIdx: -1
+  fixedObstacleIdx: 0
   m_maxObjectCount: 20
 --- !u!4 &428332377
 Transform:
@@ -2294,12 +2299,6 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 4efd21fd3b700437d8081ce4a197057a, type: 2}
   m_IsPrefabParent: 0
---- !u!114 &833448614 stripped
-MonoBehaviour:
-  m_PrefabParentObject: {fileID: 114000012283737994, guid: 981f24a07461e48f3848beacaa0170c3,
-    type: 2}
-  m_PrefabInternal: {fileID: 593821082}
-  m_Script: {fileID: 11500000, guid: 5628f3f835cd7164fbbf8e3413fa74e7, type: 3}
 --- !u!1 &866195606
 GameObject:
   m_ObjectHideFlags: 0
@@ -3389,30 +3388,6 @@ Prefab:
       propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: m_Layer
-      value: 11
-      objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: m_Layer
-      value: 11
-      objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: m_Layer
-      value: 11
-      objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: m_maxNextPOrtalToTeletransport
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: m_maxNextPOrtalToTeletransport
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: m_maxNextPOrtalToTeletransport
-      value: 5
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 8efc499f4b1cb44dd9623abb620137a1, type: 2}
   m_IsPrefabParent: 0
@@ -4179,6 +4154,12 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: dc11356dfc1cfec408932c472cf11395, type: 2}
   m_IsPrefabParent: 0
+--- !u!114 &1806270048 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114000011081729896, guid: 783faf0842f2a02479b1d72b8d7e1f4d,
+    type: 2}
+  m_PrefabInternal: {fileID: 1011742893}
+  m_Script: {fileID: 11500000, guid: f1e3fd356fe012b4cb9153c92a4b007d, type: 3}
 --- !u!1 &1809473987
 GameObject:
   m_ObjectHideFlags: 0
