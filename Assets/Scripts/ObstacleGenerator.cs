@@ -242,6 +242,20 @@ public class ObstacleGenerator : MonoBehaviour
     public void OnBonus()
     {
         m_onBonus = true;
+
+        // Hide other obstacles
+        OnBonusExplosion();
+    }
+
+    private void OnBonusExplosion()
+    {
+        foreach (var a in m_obstaclesInUse)
+        {
+            if (a.Value.inUse)
+            {
+                a.Value.obstacle.hide = true;
+            }
+        }
     }
 
     public void OnTriggerPortal(Portal portal)

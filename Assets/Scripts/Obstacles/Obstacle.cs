@@ -7,6 +7,29 @@ public class Obstacle : AutomoveObject
     [Range(0,100)]
     public int probability;
 
+    public bool hide
+    {
+        get
+        {
+            return m_spriteRenderer.enabled == true;
+        }
+        set
+        {
+            if (m_spriteRenderer)
+            {
+                m_spriteRenderer.enabled = !value;
+                gameObject.layer = value ? LayerMask.NameToLayer("IgnorePlayer") : LayerMask.NameToLayer("Default");
+            }
+        }
+    }
+
+    protected SpriteRenderer m_spriteRenderer;
+    public override void Awake()
+    {
+        base.Awake();
+        m_spriteRenderer = GetComponent<SpriteRenderer>();
+    }
+
     public virtual Portal GetPortal()
     {
         return null;
@@ -63,6 +86,6 @@ public class Obstacle : AutomoveObject
 		
     internal virtual void Reset()
     {
-        gameObject.layer = LayerMask.NameToLayer("Default");
+        hide = false;
     }
 }
