@@ -3,9 +3,9 @@ using System.Collections;
 
 public class MoveParticles : MonoBehaviour 
 {
-    public ParticleSystem m_leftParticleSystem;
-    public ParticleSystem m_centerParticleSystem;
-    public ParticleSystem m_rightParticleSystem;
+    public PlayParticlesCascade m_leftParticleSystem;
+    public PlayParticlesCascade m_centerParticleSystem;
+    public PlayParticlesCascade m_rightParticleSystem;
 
     public void Play(LaneObject.LanePosition current, LaneObject.LanePosition next)
     {
