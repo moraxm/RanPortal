@@ -9,7 +9,7 @@ public class BonusUI : MonoBehaviour
     public void UpdateUI()
     {
         int idx = GameManager.instance.bonusCoins - 1;
-        if (idx < 0 || idx > m_greenImages.Length) return;
+        if (idx > m_greenImages.Length) return;
         for (int i = 0; i < m_greenImages.Length; ++i)
         {
             m_greenImages[i].enabled = i <= idx;

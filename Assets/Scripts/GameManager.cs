@@ -309,12 +309,12 @@ public class GameManager : MonoBehaviour, ISpeedSource
 
     private void TransitionToCountDown()
     {
+        ResetPoints();
         on3CountDown.Invoke();
         m_acumTime = 0;
         m_second = 3;
         aditionalSpeed = 0;
         m_currentSpeed = 0;
-        m_coins = 0;
         state = GameState.COUNT_DOWN;
         m_player.blocked = true;
     }
@@ -322,6 +322,7 @@ public class GameManager : MonoBehaviour, ISpeedSource
     private void ResetPoints()
     {
         m_points = 0;
+        m_bonusCoins = 0;
     }
 
     public void Retry()

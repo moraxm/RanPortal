@@ -12,6 +12,10 @@ public class ObstacleGenerator : MonoBehaviour
     // Base objects for obstacles and portals
     public Obstacle[] obstacles;
     public Obstacle bonusObstacle;
+    public Obstacle bonusCoin;
+    [Range(0, 100)]
+    public float bonusCoinProbability;
+    bool m_bonusCoinFlag;
     Portal m_randomPortal;
     bool m_getNextPortal;
 
@@ -83,17 +87,25 @@ public class ObstacleGenerator : MonoBehaviour
                 {
                     m_ObstaclesProbabilityList.Add(o);
                 }
-                GameObject currentObstacleGO = new GameObject();
-                currentObstacleGO.name = o.gameObject.name;
-                currentObstacleGO.transform.SetParent(m_objectPoolGO);
-                currentObstacleGO.transform.localPosition = Vector3.zero;
-                GameObject obs = InstantiateGameObject(o.gameObject, currentObstacleGO.transform);
-                PoolObject pO = new PoolObject(obs.GetComponent<Obstacle>());
-                List<PoolObject> list = new List<PoolObject>();
-                list.Add(pO); // At least one element for each obstacle
-                m_obstaclePool.Add(o, list);
+                AddObstacleToPool(o);
             }
+
+            // Bonus coin
+            AddObstacleToPool(bonusCoin);
         }
+    }
+
+    void AddObstacleToPool(Obstacle o)
+    {
+        GameObject currentObstacleGO = new GameObject();
+        currentObstacleGO.name = o.gameObject.name;
+        currentObstacleGO.transform.SetParent(m_objectPoolGO);
+        currentObstacleGO.transform.localPosition = Vector3.zero;
+        GameObject obs = InstantiateGameObject(o.gameObject, currentObstacleGO.transform);
+        PoolObject pO = new PoolObject(obs.GetComponent<Obstacle>());
+        List<PoolObject> list = new List<PoolObject>();
+        list.Add(pO); // At least one element for each obstacle
+        m_obstaclePool.Add(o, list);
     }
 
     GameObject InstantiateGameObject(GameObject other, Transform parent)
@@ -181,6 +193,19 @@ public class ObstacleGenerator : MonoBehaviour
         {
             int idx = probability * m_ObstaclesProbabilityList.Count / 100;
             Obstacle obstacleType = m_ObstaclesProbabilityList[idx];
+            if (m_bonusCoinFlag)
+            {
+                int r = Random.Range(0, 100);
+                if (r < bonusCoinProbability)
+                {
+                    obstacleType = bonusCoin;
+                    m_bonusCoinFlag = false;
+                }
+            }
+            else
+            {
+                m_bonusCoinFlag = true;
+            }
             PoolObject pO = GetObstacleFromPool(obstacleType);
             pO.inUse = true;
             if (m_obstaclesInUse.ContainsKey(pO.obstacle)) Debug.LogError("Algo ha ido mal");
@@ -237,12 +262,12 @@ public class ObstacleGenerator : MonoBehaviour
 			if (!o.dontDestroy)
         		SetObstaclePosition(o, 0);
         }
+        m_bonusCoinFlag = true;
     }
 
     public void OnBonus()
     {
         m_onBonus = true;
-
         // Hide other obstacles
         OnBonusExplosion();
     }

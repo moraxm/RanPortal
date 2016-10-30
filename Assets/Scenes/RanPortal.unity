@@ -459,6 +459,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 585331014}
+        m_MethodName: UpdateUI
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
   on2CountDown:
@@ -1015,6 +1026,12 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 29d5a424d84c844009cfdb4c1a9569aa, type: 2}
   m_IsPrefabParent: 0
+--- !u!114 &333440123 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114000011081729896, guid: 783faf0842f2a02479b1d72b8d7e1f4d,
+    type: 2}
+  m_PrefabInternal: {fileID: 1011742893}
+  m_Script: {fileID: 11500000, guid: f1e3fd356fe012b4cb9153c92a4b007d, type: 3}
 --- !u!1 &343410480
 GameObject:
   m_ObjectHideFlags: 0
@@ -1281,6 +1298,8 @@ MonoBehaviour:
   - {fileID: 1781122362}
   - {fileID: 870227373}
   bonusObstacle: {fileID: 752013359}
+  bonusCoin: {fileID: 333440123}
+  bonusCoinProbability: 100
   spawmPositionLeft: {fileID: 866195607}
   spawmPositionCenter: {fileID: 1628097837}
   spawmPositionRight: {fileID: 1173371277}
