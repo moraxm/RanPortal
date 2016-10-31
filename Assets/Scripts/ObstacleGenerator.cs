@@ -226,9 +226,14 @@ public class ObstacleGenerator : MonoBehaviour
         obstacle.Reset();
         if (obstacle.dontDestroy) return;
         if (obstacle != bonusObstacle)
+        {
             ReUseObstacle(obstacle);
+        }
         else
+        {
             m_onBonus = false;
+            GameManager.instance.FinishedBonus();
+        }
     }
 
     private void ReUseObstacle(Obstacle obstacle)
@@ -263,6 +268,7 @@ public class ObstacleGenerator : MonoBehaviour
         		SetObstaclePosition(o, 0);
         }
         m_bonusCoinFlag = true;
+        m_onBonus = false;
     }
 
     public void OnBonus()

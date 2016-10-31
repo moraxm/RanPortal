@@ -7,7 +7,7 @@ public class Obstacle : AutomoveObject
     [Range(0,100)]
     public int probability;
 
-    public bool hide
+    public virtual bool hide
     {
         get
         {
