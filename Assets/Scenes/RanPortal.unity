@@ -1567,22 +1567,6 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 496220369}
---- !u!1 &533081467 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 1000011479415894, guid: 44216eeb8293cb146bc2cba459a9647d,
-    type: 2}
-  m_PrefabInternal: {fileID: 2076375015}
---- !u!114 &533081469
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 533081467}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f9f82e753dcdb5148b8b863c1d396d5d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &585331014 stripped
 MonoBehaviour:
   m_PrefabParentObject: {fileID: 114000013042514850, guid: dc11356dfc1cfec408932c472cf11395,
@@ -3461,7 +3445,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1556877593
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5099,17 +5083,7 @@ Prefab:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 200908258}
-    - target: {fileID: 1000010994611594, guid: 44216eeb8293cb146bc2cba459a9647d, type: 2}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 224000013707030996, guid: 44216eeb8293cb146bc2cba459a9647d,
-        type: 2}
-      propertyPath: m_AnchoredPosition.y
-      value: 4.6
-      objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 114000014270384818, guid: 44216eeb8293cb146bc2cba459a9647d, type: 2}
+    m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 44216eeb8293cb146bc2cba459a9647d, type: 2}
   m_IsPrefabParent: 0
 --- !u!1 &2137302528 stripped
