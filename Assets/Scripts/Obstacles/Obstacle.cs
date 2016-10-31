@@ -7,7 +7,7 @@ public class Obstacle : AutomoveObject
     [Range(0,100)]
     public int probability;
 
-    public bool hide
+    public virtual bool hide
     {
         get
         {
@@ -28,6 +28,8 @@ public class Obstacle : AutomoveObject
     {
         base.Awake();
         m_spriteRenderer = GetComponent<SpriteRenderer>();
+        if (!m_spriteRenderer)
+            m_spriteRenderer = GetComponentInChildren<SpriteRenderer>();
     }
 
     public virtual Portal GetPortal()

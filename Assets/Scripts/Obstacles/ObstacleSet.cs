@@ -4,10 +4,11 @@ using System.Collections;
 public class ObstacleSet : Obstacle 
 {
     Portal[] m_portals;
+    AutomoveObject[] children;
     public override void Awake()
     {
         base.Awake();
-        AutomoveObject[] children = GetComponentsInChildren<AutomoveObject>();
+        children = GetComponentsInChildren<AutomoveObject>();
         foreach (AutomoveObject o in children)
         {
             o.dontDestroy = true;
@@ -45,6 +46,22 @@ public class ObstacleSet : Obstacle
     protected override void OnPlayerExitLateral(Collider2D collision)
     {
         // Do nothing
+    }
+
+    public override bool hide
+    {
+        get
+        {
+            return base.hide;
+        }
+        set
+        {
+            foreach (Obstacle o in children)
+            {
+                if (o != this)
+                    o.hide = value;
+            }
+        }
     }
 
 }

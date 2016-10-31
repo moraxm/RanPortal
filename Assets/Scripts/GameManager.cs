@@ -27,6 +27,7 @@ public class GameManager : MonoBehaviour, ISpeedSource
     [Header("Bonus events")]
     public UnityEvent onBonus;
     public UnityEvent onBonusCoinCollected;
+    public UnityEvent onBonusFinished;
 
     [Header("Speeds")]
     public float teletransportingSpeed = 40;
@@ -148,6 +149,10 @@ public class GameManager : MonoBehaviour, ISpeedSource
     // Update is called once per frame
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            CollectBonusCoin();
+        }
         UpdatePoints();
         UpdateSpeed();
         switch (state)
@@ -330,7 +335,6 @@ public class GameManager : MonoBehaviour, ISpeedSource
         if (state == GameState.GAME_OVER)
         {
             m_obstacleGenerator.Restart();
-            
             m_gameOverMenu.SetActive(false);
             m_player.Reset();
             m_player.laneObject.lane = LaneObject.LanePosition.CENTER;
@@ -373,5 +377,10 @@ public class GameManager : MonoBehaviour, ISpeedSource
             onPause.Invoke();
             Time.timeScale = 0;
         }
+    }
+
+    internal void FinishedBonus()
+    {
+        onBonusFinished.Invoke();
     }
 }
