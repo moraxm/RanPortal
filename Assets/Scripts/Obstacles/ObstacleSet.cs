@@ -48,6 +48,15 @@ public class ObstacleSet : Obstacle
         // Do nothing
     }
 
+    internal override void Reset()
+    {
+        foreach (Obstacle o in children)
+        {
+            if (o != this)
+                o.Reset();
+        }
+    }
+
     public override bool hide
     {
         get

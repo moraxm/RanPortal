@@ -8,6 +8,7 @@ public class Portal : Obstacle
     [SerializeField]
     private Portal m_nextPortal;
     [SerializeField]
+    [Range(0,10)]
     private int m_maxNextPOrtalToTeletransport = 3;
     public int maxNextPortalToTeletransport
     {
@@ -36,11 +37,13 @@ public class Portal : Obstacle
         if (!m_particles)
             m_particles = GetComponentInChildren<PlayParticlesCascade>();
         if (nextPortal)
-            m_maxNextPOrtalToTeletransport = 0;
+            m_maxNextPOrtalToTeletransport = -1;
     }
     internal override void Reset()
     {
         base.Reset();
         gameObject.layer = LayerMask.NameToLayer("Portal");
+        if (maxNextPortalToTeletransport >= 0)
+            m_nextPortal = null;
     }
 }

@@ -185,6 +185,7 @@ public class ObstacleGenerator : MonoBehaviour
         {
             m_onBonus = false;
             SetObstaclePosition(bonusObstacle, lane);
+            bonusObstacle.Reset();
             return bonusObstacle;
         }
         else
@@ -205,7 +206,7 @@ public class ObstacleGenerator : MonoBehaviour
                 m_bonusCoinFlag = true;
             }
             PoolObject pO = GetObstacleFromPool(obstacleType);
-            //pO.obstacle.Reset();
+            pO.obstacle.Reset();
             pO.inUse = true;
             if (m_obstaclesInUse.ContainsKey(pO.obstacle)) Debug.LogError("Algo ha ido mal");
 
@@ -222,7 +223,7 @@ public class ObstacleGenerator : MonoBehaviour
         // Set the obstacle to the pool again
         Obstacle obstacle = collision.GetComponent<Obstacle>();
         if (obstacle == null) return;
-        obstacle.Reset();
+        //obstacle.Reset();
         if (obstacle.dontDestroy) return;
         if (obstacle != bonusObstacle)
         {
@@ -285,7 +286,7 @@ public class ObstacleGenerator : MonoBehaviour
     {
         if (m_randomPortal == null)
         {
-            if (p.nextPortal) return; // If the portal has fixed next portal, we don´t have nothing to do here
+            if (p.maxNextPortalToTeletransport == -1) return; // If the portal has fixed next portal, we don´t have nothing to do here
             // At start, first case when ther is no portals and this is the first portal or when portal with fixed next
             // portal has been dectected.
             m_randomPortal = p;
@@ -294,7 +295,7 @@ public class ObstacleGenerator : MonoBehaviour
         {
             // We have already a portal without next portal so we are going to update its reference
             m_randomPortal.nextPortal = p;
-            if (p.nextPortal)
+            if (p.maxNextPortalToTeletransport == -1)
             {
                 m_randomPortal = null;
             }

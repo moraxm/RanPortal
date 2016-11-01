@@ -1324,6 +1324,7 @@ MonoBehaviour:
   - {fileID: 397890989}
   - {fileID: 1781122362}
   - {fileID: 870227373}
+  - {fileID: 1326829078}
   bonusObstacle: {fileID: 752013359}
   bonusCoin: {fileID: 333440123}
   bonusCoinProbability: 100
@@ -3001,6 +3002,12 @@ Transform:
   m_PrefabParentObject: {fileID: 4000011389942040, guid: 4796e9754c2b34826958b7d2b1d098a8,
     type: 2}
   m_PrefabInternal: {fileID: 742155780}
+--- !u!114 &1326829078 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114000013329764438, guid: 5197b15a1e4cd463d8486dea41bf5635,
+    type: 2}
+  m_PrefabInternal: {fileID: 917161943}
+  m_Script: {fileID: 11500000, guid: 5628f3f835cd7164fbbf8e3413fa74e7, type: 3}
 --- !u!1 &1330902070 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 1000010585441416, guid: dc11356dfc1cfec408932c472cf11395,
