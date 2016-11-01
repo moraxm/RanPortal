@@ -110,11 +110,58 @@ public class GameManager : MonoBehaviour, ISpeedSource
     }
 
     private GameState m_state;
-    private Portal m_activePortal;
-    public Portal activePortal
+
+    // Random portal
+    private struct RandomPortalData
     {
-        get { return m_activePortal; }
+        public int skipedPortals; // Number of portals that has been skipped by probabilities
+        Portal portalFrom; // The portal where the player has entered.
+        Portal m_portalTo; // Portal where the player should go
+        public void Reset()
+        {
+            portalFrom = null;
+            m_portalTo = null;
+            skipedPortals = 0;
+        }
+        public void Set(Portal p)
+        {
+            skipedPortals = 0;
+            portalFrom = p;
+            m_portalTo = null;
+        }
+
+        public bool FindNextPortal()
+        {
+            m_portalTo = portalFrom;
+            while (m_portalTo.nextPortal && skipedPortals < portalFrom.maxNextPortalToTeletransport)
+            {
+                ++skipedPortals;
+                m_portalTo = m_portalTo.nextPortal;
+            }
+
+            if (skipedPortals < portalFrom.maxNextPortalToTeletransport)
+            {
+                return false;
+            }
+            else
+            {
+                // NextPortal found!
+                m_portalTo.gameObject.layer = LayerMask.NameToLayer("IgnorePlayer");
+                return true;
+            }
+        }
+
+        public Portal portalTo
+        {
+            get
+            {
+                if (skipedPortals < portalFrom.maxNextPortalToTeletransport) return null;
+                else return m_portalTo;
+            }
+        }
     }
+    RandomPortalData m_randomPortalData;
+
     public GameState state
     {
         get
@@ -149,10 +196,6 @@ public class GameManager : MonoBehaviour, ISpeedSource
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            CollectBonusCoin();
-        }
         UpdatePoints();
         UpdateSpeed();
         switch (state)
@@ -233,27 +276,22 @@ public class GameManager : MonoBehaviour, ISpeedSource
 
     private void UpdateTeletransporting()
     {
-        if (m_otherPortal == null)
+        if (m_randomPortalData.portalTo)
         {
-            // Try again
-            m_otherPortal = m_obstacleGenerator.GetRandomPortal(m_activePortal);
-            if (m_otherPortal)
+            // There is portal desination
+            if (m_randomPortalData.portalTo.transform.position.y <= m_player.transform.position.y)
             {
-                if (m_otherPortal.transform.position.y < m_player.transform.position.y)
-                    m_otherPortal = null;
-                else
-                    m_otherPortal.gameObject.layer = LayerMask.NameToLayer("IgnorePlayer");
+                // The player has passed the portal
+                // Transition to Playing
+                m_player.laneObject.lane = m_randomPortalData.portalTo.GetComponent<LaneObject>().lane;
+                aditionalSpeed = 0;
+                TransitionToPlaying();
             }
         }
         else
         {
-            if (m_otherPortal.transform.position.y <= m_player.transform.position.y)
-            {
-                // Transition to Playing
-                m_player.laneObject.lane = m_otherPortal.GetComponent<LaneObject>().lane;
-                aditionalSpeed = 0;
-                TransitionToPlaying();
-            }
+            // Try finding next portal
+            m_randomPortalData.FindNextPortal();
         }
     }
 
@@ -295,8 +333,8 @@ public class GameManager : MonoBehaviour, ISpeedSource
     {
         state = GameState.TELETRANSPORTING;
         aditionalSpeed = teletransportingSpeed;
-        m_activePortal = portal;
-        m_otherPortal = portal.nextPortal; // This could be null. If so, in the update we will find other portal.
+        m_randomPortalData.Set(portal);
+        m_randomPortalData.FindNextPortal();
         m_player.blocked = true;
         m_player.hide = true;
         m_player.sounds.PlayTeletrasporting(true);
@@ -307,8 +345,7 @@ public class GameManager : MonoBehaviour, ISpeedSource
         m_player.blocked = false;
         m_player.hide = false;
         state = GameState.PLAYING;
-        m_otherPortal = null;
-        m_activePortal = null;
+        m_randomPortalData.Reset();
         aditionalSpeed = 0;
     }
 
@@ -343,7 +380,6 @@ public class GameManager : MonoBehaviour, ISpeedSource
         }
     }
 
-    public Portal m_otherPortal { get; set; }
     private int m_portalsSkiped;
 
     internal void FinishedAd()
@@ -383,4 +419,6 @@ public class GameManager : MonoBehaviour, ISpeedSource
     {
         onBonusFinished.Invoke();
     }
+
+
 }

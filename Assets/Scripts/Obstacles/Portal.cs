@@ -16,6 +16,7 @@ public class Portal : Obstacle
     public Portal nextPortal
     {
         get { return m_nextPortal; }
+        set { m_nextPortal = value; }
     }
 
     protected override void OnPlayerEnterFront(Collider2D collision)
@@ -34,6 +35,8 @@ public class Portal : Obstacle
         gameObject.layer = LayerMask.NameToLayer("Portal");
         if (!m_particles)
             m_particles = GetComponentInChildren<PlayParticlesCascade>();
+        if (nextPortal)
+            m_maxNextPOrtalToTeletransport = 0;
     }
     internal override void Reset()
     {

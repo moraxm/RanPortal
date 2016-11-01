@@ -16,8 +16,9 @@ public class ObstacleGenerator : MonoBehaviour
     [Range(0, 100)]
     public float bonusCoinProbability;
     bool m_bonusCoinFlag;
-    Portal m_randomPortal;
-    bool m_getNextPortal;
+
+    // Random portals
+    Portal m_randomPortal; // Portal without next portal that we have to find a next portal reference
 
     // Spawn positions. Lanes
     public Transform spawmPositionLeft;
@@ -49,9 +50,6 @@ public class ObstacleGenerator : MonoBehaviour
 
     float m_acumSpace = 0;
     private bool m_onBonus;
-    private int m_skippedPortals;
-
-
 
     // Use this for initialization
     void Start()
@@ -207,6 +205,7 @@ public class ObstacleGenerator : MonoBehaviour
                 m_bonusCoinFlag = true;
             }
             PoolObject pO = GetObstacleFromPool(obstacleType);
+            //pO.obstacle.Reset();
             pO.inUse = true;
             if (m_obstaclesInUse.ContainsKey(pO.obstacle)) Debug.LogError("Algo ha ido mal");
 
@@ -250,14 +249,6 @@ public class ObstacleGenerator : MonoBehaviour
         }
     }
 
-    internal Portal GetRandomPortal(Portal activePortal)
-    {
-        if (activePortal != m_randomPortal)
-            return m_randomPortal;
-        else
-            return null;
-    }
-
     public void Restart()
     {
         Obstacle[] obstacles = m_objectPoolGO.GetComponentsInChildren<Obstacle>();
@@ -289,25 +280,29 @@ public class ObstacleGenerator : MonoBehaviour
         }
     }
 
-    public void OnTriggerPortal(Portal portal)
+    // Called at the begining of the repawm obstacle, if the obstale is a portal.
+    internal void OnTriggerPortalCreated(Portal p)
     {
-        if (GameManager.instance.state != GameManager.GameState.TELETRANSPORTING) return;
-        int changePortal = Random.Range(0, 100);
-        if (changePortal < changePortalProbability || m_skippedPortals >= GameManager.instance.activePortal.maxNextPortalToTeletransport)
+        if (m_randomPortal == null)
         {
-            m_skippedPortals = 0;
-            m_getNextPortal = true;
+            if (p.nextPortal) return; // If the portal has fixed next portal, we don´t have nothing to do here
+            // At start, first case when ther is no portals and this is the first portal or when portal with fixed next
+            // portal has been dectected.
+            m_randomPortal = p;
         }
         else
         {
-            ++m_skippedPortals;
+            // We have already a portal without next portal so we are going to update its reference
+            m_randomPortal.nextPortal = p;
+            if (p.nextPortal)
+            {
+                m_randomPortal = null;
+            }
+            else
+            {
+                m_randomPortal = p;
+            }
         }
-    }
-
-    internal void OnTriggerPortalCreated(Portal p)
-    {
-        if (m_getNextPortal)
-            m_randomPortal = p;
         
     }
 }

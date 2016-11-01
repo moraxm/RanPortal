@@ -177,6 +177,7 @@ public class BallController : MonoBehaviour {
         m_sounds.PlayDeath(true);
         m_spriteRenderer.enabled = false;
         m_particleSystemDeath.Play();
+        blocked = true;
     }
 
     public void Reset()
