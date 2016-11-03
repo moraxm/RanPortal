@@ -283,6 +283,7 @@ public class ObstacleGenerator : MonoBehaviour
                 a.Value.obstacle.hide = true;
             }
         }
+        m_acumSpace = waveSpace;
     }
 
     // Called at the begining of the repawm obstacle, if the obstale is a portal.
