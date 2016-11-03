@@ -56,6 +56,7 @@ public class Persistance : MonoBehaviour
         else if (points > second) SetSecond(points);
         else if (points > third) SetThird(points);
         PlayerPrefs.Save();
+        PlayGamesServiceManager.instance.ReportScore(points);
     }
 
     private static void SetThird(int points)

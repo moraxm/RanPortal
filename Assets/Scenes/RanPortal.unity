@@ -1331,6 +1331,7 @@ MonoBehaviour:
   spawmPositionLeft: {fileID: 866195607}
   spawmPositionCenter: {fileID: 1628097837}
   spawmPositionRight: {fileID: 1173371277}
+  bonusSpawmPosition: {fileID: 1124817807}
   poolPosition: {fileID: 343410481}
   fixedObstacleIdx: -1
   m_maxObjectCount: 20
@@ -1350,6 +1351,7 @@ Transform:
   - {fileID: 866195607}
   - {fileID: 1173371277}
   - {fileID: 989110420}
+  - {fileID: 1124817807}
   m_Father: {fileID: 0}
   m_RootOrder: 5
 --- !u!1001 &474213957
@@ -2875,6 +2877,34 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: da83169ae92b44bd79dd5405a02a9aef, type: 2}
   m_IsPrefabParent: 0
+--- !u!1 &1124817806
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1124817807}
+  m_Layer: 0
+  m_Name: BonusSpawnPosition
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1124817807
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1124817806}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 11.02, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_Children: []
+  m_Father: {fileID: 428332377}
+  m_RootOrder: 5
 --- !u!1 &1170689518 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 1000012518123244, guid: 989e0e1e8af9e8e499ac0c9a0726199d,

@@ -24,6 +24,7 @@ public class ObstacleGenerator : MonoBehaviour
     public Transform spawmPositionLeft;
     public Transform spawmPositionCenter;
     public Transform spawmPositionRight;
+    public Transform bonusSpawmPosition;
 
     // For debug porpuse
     public Transform poolPosition;
@@ -185,6 +186,9 @@ public class ObstacleGenerator : MonoBehaviour
         {
             m_onBonus = false;
             SetObstaclePosition(bonusObstacle, lane);
+            Vector3 pos = bonusObstacle.transform.position;
+            pos.y = bonusSpawmPosition.transform.position.y;
+            bonusObstacle.transform.position = pos;
             bonusObstacle.Reset();
             return bonusObstacle;
         }

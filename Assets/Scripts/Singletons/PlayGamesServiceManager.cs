@@ -10,6 +10,11 @@ public class PlayGamesServiceManager : MonoBehaviour
     {
         get
         {
+            if (!m_instance)
+            {
+                GameObject o = new GameObject("PlayGamesServiceManager");
+                o.AddComponent<PlayGamesServiceManager>();
+            }
             return m_instance;
         }
     }
@@ -49,6 +54,8 @@ public class PlayGamesServiceManager : MonoBehaviour
 
     public void Authenticate()
     {
+        if (authenticating) return;
+
         if (!isAuthenticated)
         {
             authenticating = true;
@@ -76,8 +83,12 @@ public class PlayGamesServiceManager : MonoBehaviour
 
     private void OnScoreReported(bool success)
     {
-        Social.ShowLeaderboardUI();
+        //Social.ShowLeaderboardUI();
     }
 
-
+    public void ReportScore(long score)
+    {
+        if (isAuthenticated)
+            Social.ReportScore(score, GPGSIds.leaderboard_score, OnScoreReported);
+    }
 }
