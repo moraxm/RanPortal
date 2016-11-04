@@ -32,6 +32,7 @@ public class AdsManager : MonoBehaviour {
 
     public void ShowAdVideo()
     {
+#if UNITY_ANDROID
         ++m_currentDeaths;
         if (m_currentDeaths >= deathsToShow)
         {
@@ -43,8 +44,12 @@ public class AdsManager : MonoBehaviour {
         {
             HandleShowResult(ShowResult.Finished);
         }
+#else
+        GameManager.instance.FinishedAd();
+#endif
     }
 
+#if UNITY_ANDROID
     private IEnumerator ShowAdCoroutine()
     {
         m_waitingToShow = true;
@@ -54,10 +59,12 @@ public class AdsManager : MonoBehaviour {
         }
 
         var options = new ShowOptions { resultCallback = HandleShowResult };
+
         m_waitingToShow = false;
         Advertisement.Show("video", options);
     }
-
+#endif
+#if UNITY_ANDROID
     private void HandleShowResult(ShowResult result)
     {
         switch (result)
@@ -78,4 +85,5 @@ public class AdsManager : MonoBehaviour {
 
         GameManager.instance.FinishedAd();
     }
+#endif
 }

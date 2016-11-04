@@ -36,7 +36,9 @@ public class PlayGamesServiceManager : MonoBehaviour
     public void Start()
     {
         // Select the Google Play Games platform as our social platform implementation
+#if UNITY_ANDROID
         GooglePlayGames.PlayGamesPlatform.Activate();
+#endif
     }
 
     public bool isAuthenticated
@@ -55,12 +57,14 @@ public class PlayGamesServiceManager : MonoBehaviour
 
     public void ShowLeaderboard()
     {
+#if UNITY_ANDROID
         if (isAuthenticated && !authenticating)
             PlayGamesPlatform.Instance.ShowLeaderboardUI(GPGSIds.leaderboard_score);
         else if (!isAuthenticated)
         {
             Authenticate();
         }
+#endif
     }
 
     public void Authenticate()
@@ -76,8 +80,10 @@ public class PlayGamesServiceManager : MonoBehaviour
 
     public void LogOut()
     {
+#if UNITY_ANDROID
         if (isAuthenticated)
             ((GooglePlayGames.PlayGamesPlatform)Social.Active).SignOut();
+#endif
     }
 
     private void OnAuthenticateFinished(bool success)
