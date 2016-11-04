@@ -325,7 +325,7 @@ public class GameManager : MonoBehaviour, ISpeedSource
         m_player.Kill();
         AdsManager.instance.ShowAdVideo();
         Persistance.SavePoints(points);
-        Persistance.SaveCoins(coins);
+        Persistance.SaveCoins(Persistance.coins + coins);
     }
 
 
