@@ -1,9 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.Audio;
 
 public class Persistance : MonoBehaviour
 {
     public bool hack;
+    static bool m_hacked;
 
     public const string SG_POINTS_ID = "Points";
     public const string SG_BALLS_ID = "Balls";
@@ -12,6 +14,9 @@ public class Persistance : MonoBehaviour
     public const string SG_RANKING_2_ID = "Ranking2";
     public const string SG_RANKING_3_ID = "Ranking3";
     public const string SG_COINS_ID = "Coins";
+    public const string SG_AUDIO_ID = "AudioSettings";
+    public const string SG_MUSIC_ID = "MusicSettings";
+    public AudioMixer m_mixer;
 
     public static int ranking1
     {
@@ -45,6 +50,14 @@ public class Persistance : MonoBehaviour
         get { return PlayerPrefs.GetInt(SG_COINS_ID);}
     }
 
+    public static void SaveAudioSettings()
+    {
+        bool enabled = AudioManager.instance.isAudioEnabled;
+        PlayerPrefs.SetInt(SG_AUDIO_ID, enabled ? 0 : -1);
+        enabled = AudioManager.instance.isMusicEnabled;
+        PlayerPrefs.SetInt(SG_MUSIC_ID, enabled ? 0 : -1);
+        PlayerPrefs.Save();
+    }
 
     public static void SavePoints(int points)
     {
@@ -103,7 +116,7 @@ public class Persistance : MonoBehaviour
     public void Awake()
     {
         // HACK para probar tienda
-        if (hack)
+        if (hack && !m_hacked)
         {
             PlayerPrefs.SetInt(SG_BALLS_ID, 0);
             PlayerPrefs.Save();
@@ -112,8 +125,25 @@ public class Persistance : MonoBehaviour
                 Persistance.UnlockBall(0);
             }
             Persistance.SaveCoins(50000);
-            hack = false;
+            m_hacked = true;
         }
+
+        
+    }
+
+    public void Start()
+    {
+        // Restore settings
+        RestoreSettins();
+    }
+
+    private void RestoreSettins()
+    {
+        bool enabled = PlayerPrefs.GetInt(SG_AUDIO_ID) < 0 ? false : true;
+        AudioManager.instance.isAudioEnabled = enabled;
+        enabled = PlayerPrefs.GetInt(SG_MUSIC_ID) < 0 ? false : true;
+        AudioManager.instance.isMusicEnabled = enabled;
+        enabled = AudioManager.instance.isMusicEnabled;
     }
 
     

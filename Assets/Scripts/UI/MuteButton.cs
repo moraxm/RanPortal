@@ -5,7 +5,6 @@ using UnityEngine.UI;
 
 public class MuteButton : MonoBehaviour 
 {
-    public AudioMixer m_mixer;
     public Sprite m_muteImage;
     public Sprite m_noMuteImage;
     public string m_mixerParamenterName;
@@ -22,15 +21,16 @@ public class MuteButton : MonoBehaviour
         if (isMuted)
         {
             // The volume is muted, so turn on
-            m_mixer.SetFloat(m_mixerParamenterName, 0);
+            AudioManager.instance.mixer.SetFloat(m_mixerParamenterName, 0);
             m_ImageComponent.sprite = m_noMuteImage;
         }
         else
         {
             // The volume is on, so mute
-            m_mixer.SetFloat(m_mixerParamenterName, -80);
+            AudioManager.instance.mixer.SetFloat(m_mixerParamenterName, -80);
             m_ImageComponent.sprite = m_muteImage;
         }
+        Persistance.SaveAudioSettings();
     }
 
     private bool isMuted
@@ -38,7 +38,7 @@ public class MuteButton : MonoBehaviour
         get
         {
             float volume;
-            if (m_mixer.GetFloat(m_mixerParamenterName, out volume))
+            if (AudioManager.instance.mixer.GetFloat(m_mixerParamenterName, out volume))
             {
                 return Mathf.Approximately(volume, -80);
             }
