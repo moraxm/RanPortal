@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using GooglePlayGames;
 
 public class PlayGamesServiceManager : MonoBehaviour
 {
@@ -52,6 +53,16 @@ public class PlayGamesServiceManager : MonoBehaviour
         private set;
     }
 
+    public void ShowLeaderboard()
+    {
+        if (isAuthenticated && !authenticating)
+            PlayGamesPlatform.Instance.ShowLeaderboardUI(GPGSIds.leaderboard_score);
+        else if (!isAuthenticated)
+        {
+            Authenticate();
+        }
+    }
+
     public void Authenticate()
     {
         if (authenticating) return;
@@ -60,10 +71,6 @@ public class PlayGamesServiceManager : MonoBehaviour
         {
             authenticating = true;
             Social.localUser.Authenticate(OnAuthenticateFinished);
-        }
-        else
-        {
-            Social.ShowLeaderboardUI();
         }
     }
 
@@ -78,7 +85,7 @@ public class PlayGamesServiceManager : MonoBehaviour
         authenticating = false;
         //Social.ReportScore(1000, GPGSIds.leaderboard_score, null);
         //Social.ReportScore(500, GPGSIds.leaderboard_score, OnScoreReported);
-        Social.ShowLeaderboardUI();
+        //Social.ShowLeaderboardUI();
     }
 
     private void OnScoreReported(bool success)
