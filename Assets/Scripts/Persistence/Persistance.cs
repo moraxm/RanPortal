@@ -3,6 +3,8 @@ using System.Collections;
 
 public class Persistance : MonoBehaviour
 {
+    public bool hack;
+
     public const string SG_POINTS_ID = "Points";
     public const string SG_BALLS_ID = "Balls";
     public const string SG_CURRENT_SKIN_ID = "Skin";
@@ -101,13 +103,17 @@ public class Persistance : MonoBehaviour
     public void Awake()
     {
         // HACK para probar tienda
-        //PlayerPrefs.SetInt(SG_BALLS_ID, 0);
-        //PlayerPrefs.Save();
-        //if (Persistance.balls == 0)
-        //{
-        //    Persistance.UnlockBall(0);
-        //}
-        //Persistance.SaveCoins(50000);
+        if (hack)
+        {
+            PlayerPrefs.SetInt(SG_BALLS_ID, 0);
+            PlayerPrefs.Save();
+            if (Persistance.balls == 0)
+            {
+                Persistance.UnlockBall(0);
+            }
+            Persistance.SaveCoins(50000);
+            hack = false;
+        }
     }
 
     
