@@ -16,6 +16,8 @@ public class Persistance : MonoBehaviour
     public const string SG_COINS_ID = "Coins";
     public const string SG_AUDIO_ID = "AudioSettings";
     public const string SG_MUSIC_ID = "MusicSettings";
+    public const string SG_AUTHENTICATED_ID = "Authenticated";
+
     public AudioMixer m_mixer;
 
     public static int ranking1
@@ -113,6 +115,12 @@ public class Persistance : MonoBehaviour
         PlayerPrefs.Save();
     }
 
+    public static void SaveAuthenticated(bool atuhenticated)
+    {
+        PlayerPrefs.SetInt(SG_AUTHENTICATED_ID, atuhenticated ? 1 : 0);
+        PlayerPrefs.Save();
+    }
+
     public void Awake()
     {
         // HACK para probar tienda
@@ -143,7 +151,8 @@ public class Persistance : MonoBehaviour
         AudioManager.instance.isAudioEnabled = enabled;
         enabled = PlayerPrefs.GetInt(SG_MUSIC_ID) < 0 ? false : true;
         AudioManager.instance.isMusicEnabled = enabled;
-        enabled = AudioManager.instance.isMusicEnabled;
+        enabled = PlayerPrefs.GetInt(SG_AUTHENTICATED_ID) == 0 ? false : true;
+        if (enabled) PlayGamesServiceManager.instance.Authenticate();
     }
 
     

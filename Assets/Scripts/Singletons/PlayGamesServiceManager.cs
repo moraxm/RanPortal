@@ -29,6 +29,7 @@ public class PlayGamesServiceManager : MonoBehaviour
         else
         {
             m_instance = this;
+            Start();
             DontDestroyOnLoad(this.gameObject);
         }
     }
@@ -84,11 +85,15 @@ public class PlayGamesServiceManager : MonoBehaviour
         if (isAuthenticated)
             ((GooglePlayGames.PlayGamesPlatform)Social.Active).SignOut();
 #endif
+        Persistance.SaveAuthenticated(false);
     }
 
     private void OnAuthenticateFinished(bool success)
     {
         authenticating = false;
+        Persistance.SaveAuthenticated(true);
+        // Update leaderBoards
+        Social.ReportScore(Persistance.ranking1, GPGSIds.leaderboard_score, OnScoreReported);
         //Social.ReportScore(1000, GPGSIds.leaderboard_score, null);
         //Social.ReportScore(500, GPGSIds.leaderboard_score, OnScoreReported);
         //Social.ShowLeaderboardUI();

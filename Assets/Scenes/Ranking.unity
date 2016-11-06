@@ -885,6 +885,7 @@ GameObject:
   - 222: {fileID: 805266614}
   - 114: {fileID: 805266613}
   - 114: {fileID: 805266612}
+  - 114: {fileID: 805266615}
   m_Layer: 5
   m_Name: GlobalRankingButton
   m_TagString: Untagged
@@ -950,8 +951,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1139205972}
-        m_MethodName: ShowLeaderboard
+      - m_Target: {fileID: 805266615}
+        m_MethodName: Show
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -996,6 +997,17 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 805266610}
+--- !u!114 &805266615
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 805266610}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6db927e9cbf47e439db30266a61cce4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1096268191
 GameObject:
   m_ObjectHideFlags: 0
@@ -1284,6 +1296,7 @@ GameObject:
   - 222: {fileID: 1555933744}
   - 114: {fileID: 1555933743}
   - 114: {fileID: 1555933742}
+  - 114: {fileID: 1555933745}
   m_Layer: 5
   m_Name: LogOutButton
   m_TagString: Untagged
@@ -1349,8 +1362,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1139205972}
-        m_MethodName: LogOut
+      - m_Target: {fileID: 1555933745}
+        m_MethodName: Login
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1395,6 +1408,20 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1555933740}
+--- !u!114 &1555933745
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1555933740}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 10c60ebdc8a851145b647651d4d34680, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  logout: {r: 1, g: 0, b: 0, a: 1}
+  login: {r: 0.15105967, g: 0.9338235, b: 0.31840932, a: 1}
+  authenticating: {r: 1, g: 0.6827586, b: 0, a: 1}
 --- !u!1 &2114394256
 GameObject:
   m_ObjectHideFlags: 0
