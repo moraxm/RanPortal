@@ -374,6 +374,7 @@ public class GameManager : MonoBehaviour, ISpeedSource
         if (state == GameState.GAME_OVER)
         {
             m_obstacleGenerator.Restart();
+            m_coins = 0;
             m_gameOverMenu.SetActive(false);
             m_player.Reset();
             m_player.laneObject.lane = LaneObject.LanePosition.CENTER;
