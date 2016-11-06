@@ -256,9 +256,11 @@ public class GameManager : MonoBehaviour, ISpeedSource
 
     private void UpdateSpeed()
     {
-        if (speed >= maxSpeed) return;
+        if (m_currentSpeed >= maxSpeed) 
+            return;
         if (m_currenWaveSpeed * pointsToIncrement < m_points)
         {
+            Debug.Log("Incrementing speed " + m_currentSpeed + "+" + incrementSpeed);
             m_currentSpeed = m_currentSpeed + incrementSpeed;
             ++m_currenWaveSpeed;
         }

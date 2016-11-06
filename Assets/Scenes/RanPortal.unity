@@ -668,9 +668,9 @@ MonoBehaviour:
       PublicKeyToken=null
   teletransportingSpeed: 10
   normalSpeed: 5
-  pointsToIncrement: 100
-  incrementSpeed: 2
-  maxSpeed: 25
+  pointsToIncrement: 150
+  incrementSpeed: 1
+  maxSpeed: 15
 --- !u!4 &200908259
 Transform:
   m_ObjectHideFlags: 0
