@@ -64,6 +64,8 @@ public class BallController : MonoBehaviour {
         { 
             m_spriteRenderer.enabled = !value;
             m_collider.enabled = !value;
+            if (!value)
+                StartCoroutine(DisabledPortals(invulnerableTime));
             //if (GameManager.instance.state == GameManager.GameState.TELETRANSPORTING)
             //    m_particleSystemPortals.Play();
             //if (value)
@@ -172,6 +174,13 @@ public class BallController : MonoBehaviour {
         obj.enabled = enable;
     }
 
+    IEnumerator DisabledPortals(float time)
+    {
+        portalsAllowed = false;
+        yield return new WaitForSeconds(time);
+        portalsAllowed = true;
+    }
+
     public void Kill()
     {
         m_sounds.PlayDeath(true);
@@ -186,4 +195,6 @@ public class BallController : MonoBehaviour {
         m_particleSystemDeath.Stop();
         m_animator.SetInteger("Index", Persistance.skin);
     }
+
+    public bool portalsAllowed { get; private set; }
 }

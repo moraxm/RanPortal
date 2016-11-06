@@ -26,6 +26,12 @@ public class Portal : Obstacle
         m_particles.Play();
     }
 
+    protected override void OnPlayerEnterLateral(Collider2D collision)
+    {
+        if (!GameManager.instance.m_player.portalsAllowed) return;
+        base.OnPlayerEnterLateral(collision);
+    }
+
     public override Portal GetPortal()
     {
         return this;
