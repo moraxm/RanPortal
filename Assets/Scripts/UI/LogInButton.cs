@@ -10,6 +10,13 @@ public class LogInButton : MonoBehaviour
 
     Text m_textComponent;
     Image m_ImageComponent;
+
+#if UNITY_WEBGL
+    public void Awake()
+    {
+        gameObject.SetActive(false);
+    }
+#endif
     public void Start()
     {
         m_textComponent = GetComponentInChildren<Text>();
