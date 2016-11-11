@@ -616,7 +616,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5628f3f835cd7164fbbf8e3413fa74e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_size: 11
+  m_size: 11.5
   dontDestroy: 0
   probability: 30
 --- !u!114 &114000013477063714
