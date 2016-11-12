@@ -28,11 +28,38 @@ public class AdsManager : MonoBehaviour {
     }
 
     public int deathsToShow = 1;
-    private int m_currentDeaths;
+    private int m_currentDeaths = 0;
+
+    public int deathsToShowVideoGems = 2;
+    private int m_currentDeathsGems = 0;
+    public int gemsReward = 20;
+    bool m_showingAdForGems = false;
+
+    public bool isVideoGemsAvailable
+    {
+        get
+        {
+            return m_currentDeathsGems >= deathsToShowVideoGems;
+        }
+    }
+
+    public void ShowAdVideoForGems()
+    {
+#if UNITY_ANDROID
+        if (isVideoGemsAvailable)
+        {
+            m_currentDeathsGems = 0;
+            m_showingAdForGems = true;
+            if (!Advertisement.isShowing && !m_waitingToShow)
+                StartCoroutine(ShowAdCoroutine());
+        }
+#endif
+    }
 
     public void ShowAdVideo()
     {
 #if UNITY_ANDROID
+        ++m_currentDeathsGems;
         ++m_currentDeaths;
         if (m_currentDeaths >= deathsToShow)
         {
@@ -74,6 +101,12 @@ public class AdsManager : MonoBehaviour {
                 //
                 // YOUR CODE TO REWARD THE GAMER
                 // Give coins etc.
+                if (m_showingAdForGems)
+                {
+                    Persistance.SaveCoins(Persistance.coins + gemsReward);
+                    m_showingAdForGems = false;
+                }
+
                 break;
             case ShowResult.Skipped:
                 Debug.Log("The ad was skipped before reaching the end.");

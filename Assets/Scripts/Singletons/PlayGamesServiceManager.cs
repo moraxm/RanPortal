@@ -153,6 +153,8 @@ public class PlayGamesServiceManager : MonoBehaviour
             string leaderboard = "score";
             //Application.ExternalCall("kongregate.stats.submit", leaderboard, (int)score);
         }
+#else
+            return;
 #endif
     }
 }

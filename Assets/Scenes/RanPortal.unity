@@ -1978,6 +1978,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   deathsToShow: 10
+  deathsToShowVideoGems: 2
+  gemsReward: 20
 --- !u!4 &677265566
 Transform:
   m_ObjectHideFlags: 0
@@ -5243,6 +5245,11 @@ Prefab:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 114000013264257278, guid: 44216eeb8293cb146bc2cba459a9647d,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 677265565}
     - target: {fileID: 114000013876150384, guid: 44216eeb8293cb146bc2cba459a9647d,
         type: 2}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
