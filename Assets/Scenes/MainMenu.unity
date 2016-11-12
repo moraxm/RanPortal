@@ -797,7 +797,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_BackGroundColor: {r: 0, g: 0, b: 0, a: 0}
   m_NormalizedViewPortRect:
     serializedVersion: 2
     x: 0
@@ -2173,6 +2173,10 @@ Prefab:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
       objectReference: {fileID: 609276324}
+    - target: {fileID: 1000010636655746, guid: 59944fcb8b44655469bf5bf7bbf12307, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 59944fcb8b44655469bf5bf7bbf12307, type: 2}
   m_IsPrefabParent: 0
@@ -2334,15 +2338,15 @@ RectTransform:
   m_GameObject: {fileID: 2081944243}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.8, y: 0.8, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 37154498}
   m_RootOrder: 0
-  m_AnchorMin: {x: 0.030000001, y: 0}
-  m_AnchorMax: {x: 0.97, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 48, y: 0}
+  m_AnchorMin: {x: 0.5, y: 1}
+  m_AnchorMax: {x: 0.5, y: 1}
+  m_AnchoredPosition: {x: 4, y: -327.5}
+  m_SizeDelta: {x: 808, y: 819}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2081944245
 MonoBehaviour:
@@ -2363,7 +2367,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: ae195047ee3f842deaef37f78e75c4ac, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 92ce4763de7ec44e28447de2922f4728, type: 3}
   m_Type: 3
   m_PreserveAspect: 1
   m_FillCenter: 1
