@@ -29,4 +29,9 @@ public class BallStore : MonoBehaviour {
         Persistance.SaveSkin(idx);
     }
 
+    public void close()
+    {
+        if (!Persistance.isBallActive(BallController.currentSkinIdx))
+            BallController.currentSkinIdx = 0;
+    }
 }

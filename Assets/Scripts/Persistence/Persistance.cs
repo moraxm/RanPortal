@@ -136,6 +136,11 @@ public class Persistance : MonoBehaviour
             m_hacked = true;
         }
 
+        //PlayerPrefs.DeleteAll();
+        if (Persistance.balls == 0)
+        {
+            Persistance.UnlockBall(0);
+        }
         
     }
 
