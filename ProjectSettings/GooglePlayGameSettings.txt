@@ -1,9 +1,10 @@
 lastUpgrade=00935
 proj.pluginVersion=0.9.35
-proj.AppId=774074850630
+proj.AppId=520848216795
 proj.classDir=Assets
 proj.ConstantsClassName=GPGSIds
-and.ResourceData=%3c%3fxml+version%3d%221.0%22+encoding%3d%22utf-8%22%3f%3e%0d%0a%3c%21--%0d%0aGoogle+Play+game+services+IDs.%0d%0aSave+this+file+as+res%2fvalues%2fgames-ids.xml+in+your+project.%0d%0a--%3e%0d%0a%3cresources%3e%0d%0a++%3cstring+name%3d%22app_id%22%3e774074850630%3c%2fstring%3e%0d%0a++%3cstring+name%3d%22achievement_welcome%22%3eCgkIxrrT08MWEAIQAQ%3c%2fstring%3e%0d%0a++%3cstring+name%3d%22leaderboard_score%22%3eCgkIxrrT08MWEAIQAA%3c%2fstring%3e%0d%0a++%3cstring+name%3d%22leaderboard_gems%22%3eCgkIxrrT08MWEAIQBA%3c%2fstring%3e%0d%0a%3c%2fresources%3e
-and.ClientId=774074850630-md7hkiknceq534kucpslpcrsce9sgkq9.apps.googleusercontent.com
+and.ResourceData=%3c%3fxml+version%3d%221.0%22+encoding%3d%22utf-8%22%3f%3e%0d%0a%3c%21--%0d%0aGoogle+Play+game+services+IDs.%0d%0aSave+this+file+as+res%2fvalues%2fgames-ids.xml+in+your+project.%0d%0a--%3e%0d%0a%3cresources%3e%0d%0a++%3cstring+name%3d%22app_id%22%3e520848216795%3c%2fstring%3e%0d%0a++%3cstring+name%3d%22package_name%22%3ecom.tonifunboy.randomportal%3c%2fstring%3e%0d%0a++%3cstring+name%3d%22leaderboard_score%22%3eCgkI26Xkp5QPEAIQAQ%3c%2fstring%3e%0d%0a++%3cstring+name%3d%22leaderboard_gems%22%3eCgkI26Xkp5QPEAIQAg%3c%2fstring%3e%0d%0a%3c%2fresources%3e
+and.ClientId=520848216795-ut2pk4o516nhj2dfi0h904a5gl4h570i.apps.googleusercontent.com
 proj.requireGPlus=false
 android.SetupDone=true
+and.BundleId=com.tonifunboy.randomportal
