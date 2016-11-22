@@ -61,7 +61,7 @@ public class AdsManager : MonoBehaviour {
 #if UNITY_ANDROID
         ++m_currentDeathsGems;
         ++m_currentDeaths;
-        if (m_currentDeaths >= deathsToShow)
+        if (m_currentDeaths >= deathsToShow && deathsToShow > 0)
         {
             m_currentDeaths = 0;
             if (!Advertisement.isShowing && !m_waitingToShow)

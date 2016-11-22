@@ -1977,7 +1977,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b59f9439c846ae48b6ab8965785e8d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  deathsToShow: 10
+  deathsToShow: 8
   deathsToShowVideoGems: 2
   gemsReward: 20
 --- !u!4 &677265566
