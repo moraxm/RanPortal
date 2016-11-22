@@ -61,6 +61,7 @@ public class AdsManager : MonoBehaviour {
 #if UNITY_ANDROID
         ++m_currentDeathsGems;
         ++m_currentDeaths;
+#if !NO_ADDS_APLICATION
         if (m_currentDeaths >= deathsToShow && deathsToShow > 0)
         {
             m_currentDeaths = 0;
@@ -68,6 +69,7 @@ public class AdsManager : MonoBehaviour {
                 StartCoroutine(ShowAdCoroutine());
         }
         else
+#endif
         {
             HandleShowResult(ShowResult.Finished);
         }
